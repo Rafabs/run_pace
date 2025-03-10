@@ -1,6 +1,7 @@
 # run_pace
 
 Estrutura do projeto
+
 📁 run_pace
 ├── 📂 public/ (arquivos estáticos como CSS, JS e imagens)
 │ ├── 📂 css/ (arquivos de estilos)
