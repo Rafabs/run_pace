@@ -19,3 +19,8 @@ Estrutura do projeto
 │ ├── database.sql (arquivo SQL para criar a estrutura do banco de dados)
 ├── 📜 README.md (documentação do projeto)
 ├── 📜 .gitignore (para ignorar arquivos desnecessários no GitHub)
+
+TO DO:
+- [ ] Criar DB e integrar ao JS
+- [ ] Ajustar tabela no html com base no DB
+- [ ] Tornar responsível
