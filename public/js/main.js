@@ -36,3 +36,21 @@ document.addEventListener("DOMContentLoaded", function () {
         slideInterval = setInterval(nextSlide, 3000); // Reinicia o autoplay
     });
 });
+
+window.onload = async function() {
+    try {
+      const response = await fetch('http://localhost:3000/corridas');
+      const data = await response.json();
+
+      console.log(data);  // Log da resposta para ver o que está vindo da API
+
+      const list = document.getElementById('corridas-list');
+      data.forEach(corrida => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${corrida.NOME_EVENTO} - ${corrida.LOCAL} - ${corrida.DATA}`;
+        list.appendChild(listItem);
+      });
+    } catch (error) {
+      console.error('Erro ao buscar corridas:', error);
+    }
+}

@@ -81,22 +81,32 @@ nav ul li a {
 }
 
 /* Tabela */
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-th {
-    background: #222;
-    color: white;
-}
+#corridas-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #corridas-list li {
+    background-color: #f4f4f4;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  #corridas-list li strong {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+  }
+  
+  #corridas-list li a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  #corridas-list li a:hover {
+    text-decoration: underline;
+  }  
 
 /* Footer */
 footer {
