@@ -21,6 +21,7 @@ Estrutura do projeto
 ├── 📜 .gitignore (para ignorar arquivos desnecessários no GitHub)
 
 TO DO:
-- [ ] Criar DB e integrar ao JS
+- [ ] Criar DB e integrar ao JS ``Em andamento``
 - [ ] Ajustar tabela no html com base no DB
 - [ ] Tornar responsível
+- [ ] Criar método para inserção de dados no DB via GUI
