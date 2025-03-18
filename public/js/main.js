@@ -39,18 +39,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
 window.onload = async function() {
     try {
-      const response = await fetch('http://localhost:3000/corridas');
-      const data = await response.json();
+        const response = await fetch('http://localhost:3000/corridas');
+        const data = await response.json();
 
-      console.log(data);  // Log da resposta para ver o que está vindo da API
+        console.log(data); // Verifica os dados recebidos no console
 
-      const list = document.getElementById('corridas-list');
-      data.forEach(corrida => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${corrida.NOME_EVENTO} - ${corrida.LOCAL} - ${corrida.DATA}`;
-        list.appendChild(listItem);
-      });
+        // Atualiza a tabela
+        const tabela = document.getElementById('corridas-list');
+        tabela.innerHTML = ''; // Limpa a tabela antes de preencher
+
+        // Inicializa o mapa centralizado em SP
+        const map = L.map('map').setView([-23.55052, -46.633308], 10); 
+
+        // Adiciona um mapa base (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        data.forEach(corrida => {
+            // Atualiza a tabela
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${corrida.DATA}</td>
+                <td>${corrida.NOME_EVENTO}</td>
+                <td>${corrida.LOCAL}</td>
+                <td>${corrida.PERIODO}</td>
+                <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+            `;
+            tabela.appendChild(row);
+
+            // Verifica se LAT e LONG existem antes de criar o marcador
+            if (corrida.LAT && corrida.LONG) {
+                const latitude = parseFloat(corrida.LAT);
+                const longitude = parseFloat(corrida.LONG);
+
+                // Adiciona um marcador no mapa
+                const marker = L.marker([latitude, longitude]).addTo(map);
+
+                // Adiciona um popup com informações
+                marker.bindPopup(`
+                    <strong>${corrida.NOME_EVENTO}</strong><br>
+                    📍 ${corrida.LOCAL}<br>
+                    🗓 ${corrida.DATA} - ${corrida.PERIODO}<br>
+                    <a href="${corrida.SITE}" target="_blank">Saiba Mais</a>
+                `);
+            }
+        });
     } catch (error) {
-      console.error('Erro ao buscar corridas:', error);
+        console.error('Erro ao buscar corridas:', error);
     }
-}
+};

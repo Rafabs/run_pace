@@ -1,68 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/jpg" href="public/images/imgs/favicon.jpg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpg" href="public/images/imgs/favicon.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Run Pace - Próximas Corridas</title>
-    <link rel="stylesheet" href="public/css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="public/css/style.css" />
+  </head>
+  <body>
     <!-- Navbar -->
     <nav>
-        <ul>
-            <li><a href="#">Corridas de Rua</a></li>
-            <li><a href="#">Corridas de Montanha</a></li>
-            <li><a href="#">São Silvestre</a></li>
-            <li><a href="#">Ciclismo</a></li>
-        </ul>
+      <ul>
+        <li><a href="#">Corridas de Rua</a></li>
+        <li><a href="#">Corridas de Montanha</a></li>
+        <li><a href="#">São Silvestre</a></li>
+        <li><a href="#">Ciclismo</a></li>
+      </ul>
     </nav>
 
     <!-- Carrossel -->
     <div class="carousel-container">
-        <div class="carousel-slide">
-            <img src="public/images/banner1.jpg" alt="Corrida 1">
-        </div>
-        <div class="carousel-slide">
-            <img src="public/images/banner2.jpg" alt="Corrida 2">
-        </div>
-    
-        <div class="carousel-controls">
-            <button class="carousel-prev">&#10094;</button>
-            <button class="carousel-next">&#10095;</button>
-        </div>
-    </div>   
+      <div class="carousel-slide">
+        <img src="public/images/banner1.jpg" alt="Corrida 1" />
+      </div>
+      <div class="carousel-slide">
+        <img src="public/images/banner2.jpg" alt="Corrida 2" />
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-prev">&#10094;</button>
+        <button class="carousel-next">&#10095;</button>
+      </div>
+    </div>
 
     <!-- Tabela de Próximas Corridas -->
     <section>
         <h2>Próximas Corridas</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Evento</th>
-                    <th>Local</th>
-                    <th>Horário</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ul id="corridas-list"></ul>
-            </tbody>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Evento</th>
+              <th>Local</th>
+              <th>Horário</th>
+              <th>Informações</th>
+            </tr>
+          </thead>
+          <tbody id="corridas-list">
+            <!-- Os dados serão inseridos aqui via JavaScript -->
+          </tbody>
         </table>
     </section>
 
+    <!-- Espaço para o mapa -->
+    <section>
+      <h2>Consulte no mapa</h2>
+      <div id="map" style="height: 300px; width: 50%"></div>
+    </section>
+
+    <!-- Importando o Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="public/js/main.js"></script>
+
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Run Pace - Todos os direitos reservados.</p>
-        <div>
-            <div class="row">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-youtube"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-            </div>
+      <p>&copy; 2025 Run Pace - Todos os direitos reservados.</p>
+      <div>
+        <div class="row">
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-instagram"></i></a>
+          <a href="#"><i class="fa fa-youtube"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
         </div>
+      </div>
     </footer>
-</body>
-<script src="public/js/main.js"></script>
+  </body>
 </html>

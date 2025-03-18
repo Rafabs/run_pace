@@ -80,33 +80,37 @@ nav ul li a {
     border-bottom-right-radius: 10px;
 }
 
-/* Tabela */
-#corridas-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  #corridas-list li {
+/* Centraliza tudo */
+section {
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* Estiliza a tabela */
+table {
+    width: 80%; /* Deixa a tabela com largura fixa */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
     background-color: #f4f4f4;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-  }
-  
-  #corridas-list li strong {
-    display: inline-block;
-    width: 150px;
-    font-weight: bold;
-  }
-  
-  #corridas-list li a {
-    color: #007BFF;
-    text-decoration: none;
-  }
-  
-  #corridas-list li a:hover {
-    text-decoration: underline;
-  }  
+}
+
+/* Centraliza o mapa */
+#map {
+    height: 400px;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
 
 /* Footer */
 footer {
