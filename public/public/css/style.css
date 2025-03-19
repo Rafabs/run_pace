@@ -7,24 +7,51 @@ body {
     color: #333;
 }
 
-/* Navbar */
-nav {
-    background: #222;
-    padding: 15px;
-    text-align: center;
+/* Estiliza a barra de navegação */
+.navbar {
+    display: flex; /* Ativa o Flexbox */
+    align-items: center; /* Alinha verticalmente os itens */
+    justify-content: space-between; /* Logo à esquerda, menu à direita */
+    padding: 15px 30px;
+    background-color: #007bff; /* Azul moderno (ajuste conforme necessário) */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-nav ul {
+
+/* Ajusta a logo no canto esquerdo */
+.logo {
+    width: 60px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Estiliza a lista do menu */
+.navbar ul {
     list-style: none;
+    display: flex; /* Itens em linha */
+    gap: 25px; /* Espaço entre os itens */
     padding: 0;
+    margin: 0;
 }
-nav ul li {
+
+/* Estiliza os itens do menu */
+.navbar ul li {
     display: inline;
-    margin: 0 15px;
 }
-nav ul li a {
-    color: white;
+
+/* Estiliza os links */
+.navbar ul li a {
     text-decoration: none;
+    color: white; /* Cor do texto */
     font-weight: bold;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Efeito ao passar o mouse */
+.navbar ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* Carrossel */
@@ -110,6 +137,115 @@ th {
     margin: 0 auto;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Login e Senha */
+form {border: 3px solid #f1f1f1;}
+
+.barra {
+    background-color: #f1f1f1;
+}
+
+input[type=email], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+
+/* Estilo do modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Conteúdo do modal */
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Botão de fechar */
+.close {
+    color: red;
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Campos de entrada */
+input, select {
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Botão de salvar */
+#salvar-corrida {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#salvar-corrida:hover {
+    background-color: #218838;
 }
 
 /* Footer */

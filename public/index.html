@@ -8,15 +8,18 @@
     <link rel="stylesheet" href="public/css/style.css" />
   </head>
   <body>
+
     <!-- Navbar -->
-    <nav>
+    <nav class="navbar">
+      <a href="index.html"><img src="public\images\logo.png" class="logo"></a>
       <ul>
-        <li><a href="#">Corridas de Rua</a></li>
-        <li><a href="#">Corridas de Montanha</a></li>
-        <li><a href="#">São Silvestre</a></li>
-        <li><a href="#">Ciclismo</a></li>
+          <li><a href="#">Corridas de Rua</a></li>
+          <li><a href="#">Corridas de Montanha</a></li>
+          <li><a href="#">São Silvestre</a></li>
+          <li><a href="#">Ciclismo</a></li>
+          <li><a href="db_login.html">DB</a></li>
       </ul>
-    </nav>
+    </nav>    
 
     <!-- Carrossel -->
     <div class="carousel-container">
@@ -47,7 +50,7 @@
             </tr>
           </thead>
           <tbody id="corridas-list">
-            <!-- Os dados serão inseridos aqui via JavaScript -->
+            <!-- Os dados da corrida via JavaScript -->
           </tbody>
         </table>
     </section>
@@ -58,7 +61,7 @@
       <div id="map" style="height: 300px; width: 50%"></div>
     </section>
 
-    <!-- Importando o Leaflet.js -->
+    <!-- Importando o Leaflet.js para exibição do mapa-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="public/js/main.js"></script>
@@ -66,14 +69,14 @@
     <!-- Footer -->
     <footer>
       <p>&copy; 2025 Run Pace - Todos os direitos reservados.</p>
-      <div>
-        <div class="row">
+      <div class="row">
           <a href="#"><i class="fa fa-facebook"></i></a>
           <a href="#"><i class="fa fa-instagram"></i></a>
           <a href="#"><i class="fa fa-youtube"></i></a>
           <a href="#"><i class="fa fa-twitter"></i></a>
-        </div>
       </div>
-    </footer>
-  </body>
+      </div>
+  </footer>
+</body>
+
 </html>

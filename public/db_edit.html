@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpg" href="public/images/imgs/favicon.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Run Pace - Próximas Corridas</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html"><img src="public\images\logo.png" class="logo"></a>
+    <ul>
+      <li><a href="#">Corridas de Rua</a></li>
+      <li><a href="#">Corridas de Montanha</a></li>
+      <li><a href="#">São Silvestre</a></li>
+      <li><a href="#">Ciclismo</a></li>
+      <li><a href="db_login.html">DB</a></li>
+    </ul>
+  </nav>
+
+  <h2>Editar Corridas</h2>
+  <div id="corridas-container"></div>
+
+  <!-- Modal para Adicionar/Editar Corrida -->
+  <div id="corrida-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modal-title">Adicionar Corrida</h2>
+      <label>Nome do Evento:</label>
+      <input type="text" id="corrida-nome" required>
+
+      <label>Data:</label>
+      <input type="date" id="corrida-data" required>
+
+      <label>Local:</label>
+      <input type="text" id="corrida-local" required>
+
+      <label>Período:</label>
+      <select id="corrida-periodo">
+        <option>Manhã</option>
+        <option>Tarde</option>
+        <option>Noite</option>
+      </select>
+
+      <label>Site:</label>
+      <input type="url" id="corrida-site" required>
+
+      <button id="salvar-corrida">Salvar</button>
+    </div>
+  </div>
+
+  <script src="public/js/main.js"></script>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Run Pace - Todos os direitos reservados.</p>
+    <div class="row">
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#"><i class="fa fa-instagram"></i></a>
+      <a href="#"><i class="fa fa-youtube"></i></a>
+      <a href="#"><i class="fa fa-twitter"></i></a>
+    </div>
+    </div>
+  </footer>
+</body>
+
+</html>
