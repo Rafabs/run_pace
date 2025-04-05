@@ -1,81 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpg" href="public/images/imgs/favicon.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Run Pace - Próximas Corridas</title>
-    <link rel="stylesheet" href="public/css/style.css" />
-  </head>
-  <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-      <a href="index.html"><img src="public\images\logo.png" class="logo"></a>
-      <ul>
-          <li><a href="#">Corridas de Rua</a></li>
-          <li><a href="#">Corridas de Montanha</a></li>
-          <li><a href="#">São Silvestre</a></li>
-          <li><a href="#">Ciclismo</a></li>
-          <li><a href="db_login.html">DB</a></li>
-      </ul>
-    </nav>    
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpg" href="public/images/imgs/favicon.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Run Pace - Próximas Corridas</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+</head>
 
-    <!-- Carrossel -->
-    <div class="carousel-container">
-      <div class="carousel-slide">
-        <img src="public/images/banner1.jpg" alt="Corrida 1" />
-      </div>
-      <div class="carousel-slide">
-        <img src="public/images/banner2.jpg" alt="Corrida 2" />
-      </div>
+<body>
 
-      <div class="carousel-controls">
-        <button class="carousel-prev">&#10094;</button>
-        <button class="carousel-next">&#10095;</button>
-      </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html"><img src="public\images\logo.png" class="logo"></a>
+    <ul>
+      <li><a href="#">Corridas de Rua</a></li>
+      <li><a href="#">Corridas de Montanha</a></li>
+      <li><a href="#">São Silvestre</a></li>
+      <li><a href="#">Ciclismo</a></li>
+      <li><a href="db_login.html">DB</a></li>
+    </ul>
+  </nav>
+
+  <!-- Carrossel -->
+  <div class="carousel-container">
+    <div class="carousel-slide">
+      <img src="public/images/banner1.jpg" alt="Corrida 1" />
+    </div>
+    <div class="carousel-slide">
+      <img src="public/images/banner2.jpg" alt="Corrida 2" />
     </div>
 
-    <!-- Tabela de Próximas Corridas -->
+    <div class="carousel-controls">
+      <button class="carousel-prev">&#10094;</button>
+      <button class="carousel-next">&#10095;</button>
+    </div>
+  </div>
+
+  <!-- Tabela de Próximas Corridas -->
+  <section>
+    <h2>Próximas Corridas</h2>
+
+    <!-- Barra de pesquisa -->
     <section>
-        <h2>Próximas Corridas</h2>
-        <table border="1">
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Evento</th>
-              <th>Local</th>
-              <th>Horário</th>
-              <th>Informações</th>
-            </tr>
-          </thead>
-          <tbody id="corridas-list">
-            <!-- Os dados da corrida via JavaScript -->
-          </tbody>
-        </table>
+      <input type="text" id="search-bar" placeholder="Digite o nome do evento" oninput="filtrarEventos()" />
     </section>
 
-    <!-- Espaço para o mapa -->
-    <section>
-      <h2>Consulte no mapa</h2>
-      <div id="map" style="height: 300px; width: 50%"></div>
-    </section>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Evento</th>
+          <th>Local</th>
+          <th>Horário</th>
+          <th>Informações</th>
+        </tr>
+      </thead>
+      <tbody id="corridas-list">
+        <!-- Os dados da corrida via JavaScript -->
+      </tbody>
+    </table>
+  </section>
 
-    <!-- Importando o Leaflet.js para exibição do mapa-->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="public/js/main.js"></script>
+  <!-- Espaço para o mapa -->
+  <section>
+    <h2>Consulte no mapa</h2>
+    <div id="map" style="height: 300px; width: 50%"></div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2025 Run Pace - Todos os direitos reservados.</p>
-      <div class="row">
-          <a href="#"><i class="fa fa-facebook"></i></a>
-          <a href="#"><i class="fa fa-instagram"></i></a>
-          <a href="#"><i class="fa fa-youtube"></i></a>
-          <a href="#"><i class="fa fa-twitter"></i></a>
-      </div>
-      </div>
+  <!-- Importando o Leaflet.js para exibição do mapa-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="public/js/main.js"></script>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Run Pace - Todos os direitos reservados.</p>
+    <div class="row">
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#"><i class="fa fa-instagram"></i></a>
+      <a href="#"><i class="fa fa-youtube"></i></a>
+      <a href="#"><i class="fa fa-twitter"></i></a>
+    </div>
+    </div>
   </footer>
 </body>
 

@@ -1,151 +1,204 @@
 document.addEventListener("DOMContentLoaded", function () {
-    iniciarCarrossel();
-    
-    if (document.getElementById("corridas-list")) {
-        carregarCorridasPublicas();
-    }
+  iniciarCarrossel();
 
-    if (document.getElementById("login-form")) {
-        configurarLogin();
-    }
+  if (document.getElementById("corridas-list")) {
+    carregarCorridasPublicas();
+  }
 
-    if (document.getElementById("corridas-container")) {
-        carregarCorridasPrivadas();
-    }
+  if (document.getElementById("login-form")) {
+    configurarLogin();
+  }
+
+  if (document.getElementById("corridas-container")) {
+    carregarCorridas();
+  }
+
+  if (document.getElementById("search-bar")) {
+    configurarBarraDePesquisa();
+  }
 });
 
 // -------------------- CARROSSEL --------------------
 function iniciarCarrossel() {
-    const slides = document.querySelectorAll(".carousel-slide");
-    const prevButton = document.querySelector(".carousel-prev");
-    const nextButton = document.querySelector(".carousel-next");
-    let currentSlide = 0;
-    let slideInterval = null;
+  const slides = document.querySelectorAll(".carousel-slide");
+  const prevButton = document.querySelector(".carousel-prev");
+  const nextButton = document.querySelector(".carousel-next");
+  let currentSlide = 0;
+  let slideInterval = null;
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.style.display = i === index ? "block" : "none";
-        });
-    }
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.style.display = i === index ? "block" : "none";
+    });
+  }
 
-    function resetSlideInterval() {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 3000);
-    }
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-        currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
-        showSlide(currentSlide);
-    }
-
+  function resetSlideInterval() {
+    clearInterval(slideInterval);
     slideInterval = setInterval(nextSlide, 3000);
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
     showSlide(currentSlide);
+  }
 
-    if (prevButton && nextButton) {
-        prevButton.addEventListener("click", () => {
-            prevSlide();
-            resetSlideInterval();
-        });
+  function prevSlide() {
+    currentSlide = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+    showSlide(currentSlide);
+  }
 
-        nextButton.addEventListener("click", () => {
-            nextSlide();
-            resetSlideInterval();
-        });
-    }
+  slideInterval = setInterval(nextSlide, 3000);
+  showSlide(currentSlide);
+
+  if (prevButton && nextButton) {
+    prevButton.addEventListener("click", () => {
+      prevSlide();
+      resetSlideInterval();
+    });
+
+    nextButton.addEventListener("click", () => {
+      nextSlide();
+      resetSlideInterval();
+    });
+  }
 }
 
 // -------------------- LISTAGEM PÚBLICA DE CORRIDAS --------------------
-let map = null; // Mapa global
+let map = null;
+let todasCorridas = [];
 
 async function carregarCorridasPublicas() {
-    try {
-        const response = await fetch('http://localhost:3000/corridas');
-        if (!response.ok) throw new Error("Erro ao carregar os dados");
+  try {
+    const response = await fetch("http://localhost:3000/corridas"); //(AJUSTAR QUANDO FOR LANÇAR*******)
+    if (!response.ok) throw new Error("Erro ao carregar os dados");
 
-        const data = await response.json();
-        console.log(data);
+    const data = await response.json();
+    todasCorridas = data;
+    console.log(data);
 
-        const tabela = document.getElementById('corridas-list');
-        tabela.innerHTML = '';
+    const tabela = document.getElementById("corridas-list");
+    tabela.innerHTML = "";
 
-        // Inicializa o mapa apenas uma vez
-        if (!map) {
-            map = L.map('map').setView([-23.55052, -46.633308], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
-        }
+    // Inicializa o mapa
+    if (!map) {
+      map = L.map("map").setView([-23.55052, -46.633308], 10);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+    }
 
-        data.forEach(corrida => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${corrida.DATA}</td>
+    // Dados que serão exibidos na tabela na página inicial
+    data.forEach((corrida) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+                <td>${formatarDataParaBR(corrida.DATA)}</td>
                 <td>${corrida.NOME_EVENTO}</td>
                 <td>${corrida.LOCAL}</td>
                 <td>${corrida.PERIODO}</td>
-                <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+                <td><a href="${
+                  corrida.SITE
+                }" target="_blank">Saiba Mais</a></td>
             `;
-            tabela.appendChild(row);
+      tabela.appendChild(row);
 
-            if (corrida.LAT && corrida.LONG) {
-                const latitude = parseFloat(corrida.LAT);
-                const longitude = parseFloat(corrida.LONG);
-                const marker = L.marker([latitude, longitude]).addTo(map);
-                marker.bindPopup(`
+      if (corrida.LAT && corrida.LONG) {
+        const latitude = parseFloat(corrida.LAT);
+        const longitude = parseFloat(corrida.LONG);
+        const marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup(`
                     <strong>${corrida.NOME_EVENTO}</strong><br>
                     📍 ${corrida.LOCAL}<br>
                     🗓 ${corrida.DATA} - ${corrida.PERIODO}<br>
                     <a href="${corrida.SITE}" target="_blank">Saiba Mais</a>
                 `);
-            }
-        });
+      }
+    });
+  } catch (error) {
+    console.error("Erro ao buscar corridas:", error);
+    alert("Erro ao carregar corridas. Tente novamente mais tarde.");
+  }
+}
 
-    } catch (error) {
-        console.error('Erro ao buscar corridas:', error);
-        alert("Erro ao carregar corridas. Tente novamente mais tarde.");
-    }
+// -------------------- CONFIGURAÇÃO DA BARRA DE PESQUISA --------------------
+function configurarBarraDePesquisa() {
+  const searchBar = document.getElementById("search-bar");
+  searchBar.addEventListener("input", filtrarCorridas);
+}
+
+function filtrarCorridas() {
+  const filtro = document.getElementById("search-bar").value.toLowerCase();
+  const tabela = document.getElementById("corridas-list");
+  tabela.innerHTML = "";
+
+  const corridasFiltradas = todasCorridas.filter((corrida) =>
+    corrida.NOME_EVENTO.toLowerCase().includes(filtro)
+  );
+
+  // Atualiza a tabela com corridas filtradas
+  corridasFiltradas.forEach((corrida) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+            <td>${formatarDataParaBR(corrida.DATA)}</td>
+            <td>${corrida.NOME_EVENTO}</td>
+            <td>${corrida.LOCAL}</td>
+            <td>${corrida.PERIODO}</td>
+            <td>${corrida.LAT}</td>
+            <td>${corrida.LONG}</td>
+            <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+        `;
+    row.addEventListener("click", () => {
+      if (corrida.LAT && corrida.LONG) {
+        const latitude = parseFloat(corrida.LAT);
+        const longitude = parseFloat(corrida.LONG);
+        map.setView([latitude, longitude], 14); // Centraliza no ponto filtrado
+      }
+    });
+    tabela.appendChild(row);
+  });
+
+  if (corridasFiltradas.length === 0) {
+    tabela.innerHTML = `<tr><td colspan="5">Nenhuma corrida encontrada.</td></tr>`;
+  }
 }
 
 // -------------------- LOGIN --------------------
 function configurarLogin() {
-    document.getElementById("login-form").addEventListener("submit", async function(event) {
-        event.preventDefault(); // Evita o recarregamento da página
-    
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-    
-        try {
-            const response = await fetch("http://localhost:3000/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });            
-            
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Erro na resposta do servidor:", errorText);
-                alert(errorText || "Erro desconhecido ao fazer login.");
-                return;
-            }            
-                        
-            const data = await response.json(); // Converte para JSON            
-    
-            if (response.ok) {
-                console.log("Dados do servidor:", data);
-                window.location.href = "http://127.0.0.1:5500/public/db_edit.html";
-            } else {
-                alert(data.message);
-            }                    
-        } catch (error) {
-            console.error("Resposta inválida do servidor:", error);
-            alert("Erro inesperado no servidor. Tente novamente mais tarde.");
-            return;
-        }     
+  document
+    .getElementById("login-form")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault(); // Evita o recarregamento da página
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch("http://localhost:3000/login", {
+          //(AJUSTAR QUANDO FOR LANÇAR*******)
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Erro na resposta do servidor:", errorText);
+          alert(errorText || "Erro desconhecido ao fazer login.");
+          return;
+        }
+
+        const data = await response.json(); // Converte para JSON
+
+        if (response.ok) {
+          console.log("Dados do servidor:", data);
+          window.location.href = "http://127.0.0.1:5500/public/db_edit.html"; //(AJUSTAR QUANDO FOR LANÇAR*******)
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Resposta inválida do servidor:", error);
+        alert("Erro inesperado no servidor. Tente novamente mais tarde.");
+        return;
+      }
     });
 }
 
@@ -154,110 +207,254 @@ let editandoId = null;
 
 // Função para exibir o modal
 function abrirModal(titulo, dados = {}) {
-    document.getElementById("modal-title").innerText = titulo;
-    document.getElementById("corrida-nome").value = dados.NOME_EVENTO || "";
-    document.getElementById("corrida-data").value = dados.DATA || "";
-    document.getElementById("corrida-local").value = dados.LOCAL || "";
-    document.getElementById("corrida-periodo").value = dados.PERIODO || "Manhã";
-    document.getElementById("corrida-site").value = dados.SITE || "";
+  document.getElementById("modal-title").innerText = titulo;
+  document.getElementById("corrida-nome").value = dados.NOME_EVENTO || "";
+  document.getElementById("corrida-data").value = dados.DATA || "";
+  document.getElementById("corrida-local").value = dados.LOCAL || "";
+  document.getElementById("corrida-lat").value = dados.LAT || "";
+  document.getElementById("corrida-long").value = dados.LONG || "";
+  document.getElementById("corrida-periodo").value = dados.PERIODO || "Manhã";
+  document.getElementById("corrida-site").value = dados.SITE || "";
+
+  document.getElementById("corrida-modal").style.display = "block";
+  editandoId = dados._id || null; // Salva o ID para edição
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const closeButton = document.querySelector(".close");
+  if (closeButton) {
+    closeButton.addEventListener("click", fecharModal);
+  }
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target.classList.contains("modal")) {
+    fecharModal();
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const salvarCorridaBtn = document.getElementById("salvar-corrida");
+  if (salvarCorridaBtn) {
+    salvarCorridaBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      console.log("Botão salvar clicado!");
+      await salvarCorrida();
+    });
+  } else {
+    console.error("Botão 'salvar-corrida' não encontrado no DOM.");
+  }
+});
+
+// Função para renderizar corridas na lista
+function renderizarCorridas(corridas) {
+  const listaCorridas = document.getElementById("listaCorridas");
+  if (!listaCorridas) {
+    console.error("Elemento #listaCorridas não encontrado no HTML!");
+    return;
+  }
+
+  listaCorridas.innerHTML = ""; // Limpa a lista antes de adicionar os eventos
+  corridas.sort((a, b) => new Date(a.DATA) - new Date(b.DATA)); // Exibe em ordem crescente de eventos
+
+  corridas.forEach((corrida) => {
+    const item = document.createElement("li");
+    item.innerHTML = `
+            <strong>${corrida.NOME_EVENTO}</strong><br>
+            Data: ${formatarDataParaBR(corrida.DATA)}<br>
+            Local: ${corrida.LOCAL}<br>
+            Período: ${corrida.PERIODO}<br>
+            <button onclick="excluirCorrida('${
+              corrida._id
+            }')">🗑 Excluir</button>
+            <hr>
+        `;
+    listaCorridas.appendChild(item);
+  });
+
+  console.log("Corridas renderizadas na página.");
+}
+
+// Função para carregar todas as corridas
+async function carregarCorridas() {
+    try {
+        const resposta = await fetch("http://localhost:3000/corridas");
+        if (!resposta.ok) throw new Error("Erro ao buscar corridas");
+
+        let corridas = await resposta.json();
+
+        corridas.sort((a, b) => new Date(a.DATA) - new Date(b.DATA));
+
+        const tabela = document.querySelector("#tabelaCorridas tbody");
+        tabela.innerHTML = ""; // Limpa tabela
+
+        corridas.forEach(corrida => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${corrida.NOME_EVENTO}</td>
+                <td>${formatarDataParaBR(corrida.DATA)}</td>
+                <td>${corrida.LOCAL}</td>
+                <td>${corrida.PERIODO}</td>
+                <td><button onclick="abrirModalEditar('${corrida._id}')">Editar</button></td>
+            `;
+            tabela.appendChild(row);
+        });
+    } catch (erro) {
+        console.error("Erro ao carregar corridas:", erro);
+    }
+}
+
+async function carregarCorridasIndex() {
+    const resposta = await fetch("http://localhost:3000/corridas");
+    const corridas = await resposta.json();
+  
+    // 🔢 Ordenar por data crescente
+    corridas.sort((a, b) => new Date(a.DATA) - new Date(b.DATA));
+  
+    const tbody = document.getElementById("corridas-list");
+    if (!tbody) return; // ✅ Garante que só roda na index.html
+  
+    tbody.innerHTML = "";
+  
+    corridas.forEach(corrida => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${formatarDataParaBR(corrida.DATA)}</td>
+        <td>${corrida.NOME_EVENTO}</td>
+        <td>${corrida.LOCAL}</td>
+        <td>${corrida.PERIODO}</td>
+        <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  
+  window.onload = carregarCorridasIndex;
+  
+// Função para excluir uma corrida
+async function excluirCorrida(id) {
+  try {
+    console.log("Tentando excluir corrida com ID:", id);
+    const response = await fetch(`http://localhost:3000/corridas/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao excluir corrida");
+    }
+
+    console.log("Corrida excluída com sucesso!");
+    await carregarCorridas(); // Atualiza a lista de corridas após exclusão
+  } catch (error) {
+    console.error("Erro ao excluir corrida:", error);
+  }
+}
+
+// Abrir modal para adicionar nova corrida
+function abrirModalAdicionar() {
+  document.getElementById("modal-title").innerText = "Adicionar Nova Corrida";
+  document.getElementById("corrida-id").value = "";
+  document.getElementById("corrida-nome").value = "";
+  document.getElementById("corrida-data").value = "";
+  document.getElementById("corrida-local").value = "";
+  document.getElementById("corrida-periodo").value = "Manhã";
+  document.getElementById("corrida-site").value = "";
+  document.getElementById("corrida-lat").value = "";
+  document.getElementById("corrida-long").value = "";
+  document.getElementById("corrida-tipo").value = "";
+  document.getElementById("excluir-corrida").style.display = "none";
+
+  document.getElementById("corrida-modal").style.display = "block";
+}
+
+// Abrir modal para editar corrida existente
+async function abrirModalEditar(id) {
+  document.getElementById("corrida-id").value = id; // Armazena o ID no campo oculto
+  console.log(`Rota /corridas/${id} chamada com ID: ${id}`);
+  try {
+    const resposta = await fetch(`http://localhost:3000/corridas/${id}`); //(AJUSTAR QUANDO FOR LANÇAR*******)
+    if (!resposta.ok) throw new Error("Erro ao buscar detalhes da corrida");
+
+    const corrida = await resposta.json();
+    document.getElementById("modal-title").innerText = "Editar Corrida";
+    document.getElementById("corrida-id").value = corrida._id;
+    document.getElementById("corrida-nome").value = corrida.NOME_EVENTO;
+    document.getElementById("corrida-data").value = corrida.DATA
+      ? corrida.DATA.split("T")[0]
+      : "";
+    document.getElementById("corrida-local").value = corrida.LOCAL;
+    document.getElementById("corrida-periodo").value = corrida.PERIODO;
+    document.getElementById("corrida-site").value = corrida.SITE;
+    document.getElementById("corrida-lat").value = corrida.LAT || "";
+    document.getElementById("corrida-long").value = corrida.LONG || "";
+    document.getElementById("corrida-tipo").value = corrida.TIPO || "";
+    document.getElementById("excluir-corrida").style.display = "inline-block";
 
     document.getElementById("corrida-modal").style.display = "block";
-    editandoId = dados._id || null;
+  } catch (error) {
+    console.error("Erro ao carregar corrida para edição:", error);
+    alert("Erro ao carregar detalhes da corrida.");
+  }
 }
 
-// Fechar o modal ao clicar no "X"
-document.querySelector(".close").addEventListener("click", () => {
-    document.getElementById("corrida-modal").style.display = "none";
-});
-
-// Fechar ao clicar fora do modal
-window.addEventListener("click", (event) => {
-    if (event.target.classList.contains("modal")) {
-        document.getElementById("corrida-modal").style.display = "none";
-    }
-});
-
-// Função para adicionar/editar corrida
-document.getElementById("salvar-corrida").addEventListener("click", async () => {
-    const nome = document.getElementById("corrida-nome").value;
-    const data = document.getElementById("corrida-data").value;
-    const local = document.getElementById("corrida-local").value;
-    const periodo = document.getElementById("corrida-periodo").value;
-    const site = document.getElementById("corrida-site").value;
-
-    if (!nome || !data || !local || !site) {
-        alert("Todos os campos são obrigatórios!");
-        return;
-    }
-
-    const corrida = { NOME_EVENTO: nome, DATA: data, LOCAL: local, PERIODO: periodo, SITE: site };
-
-    try {
-        const url = editandoId ? `http://localhost:3000/corridas/${editandoId}` : "http://localhost:3000/corridas";
-        const method = editandoId ? "PUT" : "POST";
-
-        const response = await fetch(url, {
-            method: method,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(corrida)
-        });
-
-        if (response.ok) {
-            document.getElementById("corrida-modal").style.display = "none";
-            carregarCorridasPrivadas();
-        } else {
-            throw new Error("Erro ao salvar corrida.");
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao salvar corrida.");
-    }
-});
-
-// Atualizar botões na listagem privada
-async function carregarCorridasPrivadas() {
-    try {
-        const response = await fetch("http://localhost:3000/corridas");
-        if (!response.ok) throw new Error("Erro ao buscar dados");
-
-        const data = await response.json();
-        const container = document.getElementById("corridas-container");
-        container.innerHTML = "";
-
-        // Botão global para adicionar nova corrida
-        const addButton = document.createElement("button");
-        addButton.innerText = "Adicionar Nova Corrida";
-        addButton.onclick = () => abrirModal("Adicionar Corrida");
-        container.appendChild(addButton);
-
-        data.forEach(corrida => {
-            const div = document.createElement("div");
-            div.innerHTML = `
-                <p>${corrida.NOME_EVENTO} - ${corrida.DATA}</p>
-                <button onclick="abrirModal('Editar Corrida', ${JSON.stringify(corrida)})">Editar</button>
-                <button onclick="deletarCorrida('${corrida._id}')">Excluir</button>
-            `;
-            container.appendChild(div);
-        });
-
-    } catch (error) {
-        console.error("Erro ao carregar corridas privadas:", error);
-        alert("Erro ao carregar corridas para edição.");
-    }
+// Fechar modal
+function fecharModal() {
+  document.getElementById("corrida-modal").style.display = "none";
 }
 
-async function deletarCorrida(id) {
-    if (!confirm("Tem certeza que deseja excluir?")) return;
-
-    try {
-        const response = await fetch(`http://localhost:3000/corridas/${id}`, { method: "DELETE" });
-        if (response.ok) {
-            carregarCorridasPrivadas();
-        } else {
-            throw new Error("Erro ao excluir corrida.");
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao excluir corrida.");
-    }
+// Converte dd/mm/aaaa -> yyyy-mm-dd (se vier de input customizado)
+function formatarDataParaBR(dataISO) {
+  if (!dataISO) return "";
+  const [ano, mes, dia] = dataISO.split("T")[0].split("-");
+  return `${dia}/${mes}/${ano}`;
 }
+
+// Salvar ou editar corrida
+async function salvarCorrida() {
+  const id = document.getElementById("corrida-id").value;
+  const lat = document.getElementById("corrida-lat").value.trim();
+  const long = document.getElementById("corrida-long").value.trim();
+  const dataBr = document.getElementById("corrida-data").value;
+
+  const corrida = {
+    NOME_EVENTO: document.getElementById("corrida-nome").value,
+    DATA: document.getElementById("corrida-data").value,
+    LOCAL: document.getElementById("corrida-local").value,
+    PERIODO: document.getElementById("corrida-periodo").value,
+    SITE: document.getElementById("corrida-site").value,
+    LAT: lat !== "" ? parseFloat(lat) : null,
+    LONG: long !== "" ? parseFloat(long) : null,
+    TIPO: document.getElementById("corrida-tipo").value,
+  };
+
+  const url = id
+    ? `http://localhost:3000/corridas/${id}` //(AJUSTAR QUANDO FOR LANÇAR*******)
+    : `http://localhost:3000/corridas`; //(AJUSTAR QUANDO FOR LANÇAR*******)
+
+  const metodo = id ? "PUT" : "POST";
+
+  try {
+    console.log(`Enviando requisição ${metodo} para ${url}`);
+
+    const resposta = await fetch(url, {
+      method: metodo,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(corrida),
+    });
+
+    if (!resposta.ok) throw new Error("Erro ao salvar corrida");
+
+    console.log("Corrida salva com sucesso!");
+    carregarCorridas();
+    fecharModal();
+  } catch (erro) {
+    console.error("Erro ao salvar corrida:", erro);
+  }
+}
+
+// Carregar as corridas ao inicializar a página
+document.addEventListener("DOMContentLoaded", carregarCorridas);

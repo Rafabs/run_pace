@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const { MongoClient, ObjectId } = require("mongodb");
 const path = require("path");
-const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
@@ -16,9 +15,15 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false } // cookie: { secure: process.env.NODE_ENV === "production" } << Quando em produção
 }));
-app.use(cors()); // Libera requisições de qualquer origem
+const cors = require("cors");
+app.use(cors({
+    origin: "http://127.0.0.1:5500", // Requisições do frontend (AJUSTAR QUANDO FOR LANÇAR*******) 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    allowedHeaders: ["Content-Type", "Authorization"], 
+    credentials: true
+}));
 
-const uri = "mongodb://localhost:27017";
+const uri = "mongodb://localhost:27017"; //(AJUSTAR QUANDO FOR LANÇAR*******) 
 const client = new MongoClient(uri);
 let db;
 
@@ -29,7 +34,7 @@ async function connectDB() {
       console.log("Conectado ao MongoDB");
   } catch (error) {
       console.error("Erro ao conectar ao MongoDB:", error);
-      setTimeout(connectDB, 5000); // Tenta reconectar após 5 segundos
+      setTimeout(connectDB, 5000); 
   }
 }
 connectDB();
@@ -91,65 +96,94 @@ app.get("/corridas", async (req, res) => {
     }
 });
 
-// -------------------- INSERIR CORRIDA (PROTEGIDO) --------------------
-app.post("/corridas", authMiddleware, async (req, res) => {
-  console.log("Requisição recebida em POST /corridas:", req.body);
-  const { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE } = req.body;
-
-  if (!NOME_EVENTO || !DATA || !LOCAL || !PERIODO || !SITE) {
-      return res.status(400).json({ message: "Todos os campos são obrigatórios." });
-  }
-
+// -------------------- INSERIR CORRIDA --------------------
+app.post("/corridas", async (req, res) => {
   try {
-      const novaCorrida = { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE };
+        const { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO } = req.body;
+
+      if (!NOME_EVENTO || !DATA || !LOCAL || !PERIODO || !SITE || !LAT || !LONG || !TIPO) {
+          return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+      }
+
+      const novaCorrida = { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO };
       const result = await db.collection("corridas").insertOne(novaCorrida);
       
-      // Mudei de result.ops[0] para result.insertedId, pois ops está obsoleto no MongoDB 4+
-      res.status(201).json({ 
-        message: "Corrida adicionada com sucesso!", 
-        corrida: { _id: result.insertedId, ...novaCorrida } 
+      return res.status(201).json({ 
+          message: "Corrida adicionada com sucesso!",
+          corrida: { _id: result.insertedId, ...novaCorrida }
       });
-
   } catch (error) {
       console.error("Erro ao adicionar corrida:", error);
       res.status(500).json({ message: "Erro interno ao adicionar corrida." });
   }
 });
 
-// -------------------- ATUALIZAR CORRIDA (PROTEGIDO) --------------------
+// -------------------- ATUALIZAR CORRIDA --------------------
 app.put("/corridas/:id", authMiddleware, async (req, res) => {
     const { id } = req.params;
     if (!ObjectId.isValid(id)) {
         return res.status(400).json({ message: "ID inválido" });
     }
 
-    const { NOME_EVENTO } = req.body;
+    const { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO } = req.body;
 
     try {
-        await db.collection("corridas").updateOne(
+        const resultado = await db.collection("corridas").updateOne(
             { _id: new ObjectId(id) },
-            { $set: { NOME_EVENTO } }
+            { 
+                $set: { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO } 
+            }
         );
-        res.json({ message: "Corrida atualizada" });
+
+        if (resultado.modifiedCount === 0) {
+            return res.status(404).json({ message: "Nenhuma alteração feita ou corrida não encontrada." });
+        }
+
+        res.json({ message: "Corrida atualizada com sucesso!" });
     } catch (error) {
         console.error("Erro ao atualizar corrida:", error);
         res.status(500).json({ message: "Erro interno no servidor" });
     }
 });
 
-// -------------------- EXCLUIR CORRIDA (PROTEGIDO) --------------------
-app.delete("/corridas/:id", authMiddleware, async (req, res) => {
-  console.log("Requisição DELETE recebida para o ID:", req.params.id);  
+// -------------------- EXCLUIR CORRIDA --------------------
+app.delete("/corridas/:id", async (req, res) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
       return res.status(400).json({ message: "ID inválido" });
   }
 
   try {
-      await db.collection("corridas").deleteOne({ _id: new ObjectId(id) });
-      res.json({ message: "Corrida excluída" });
+      const resultado = await db.collection("corridas").deleteOne({ _id: new ObjectId(id) });
+      if (resultado.deletedCount === 0) {
+          return res.status(404).json({ message: "Corrida não encontrada" });
+      }
+
+      res.json({ message: "Corrida excluída com sucesso!" });
   } catch (error) {
       console.error("Erro ao excluir corrida:", error);
+      res.status(500).json({ message: "Erro interno no servidor" });
+  }
+});
+
+// -------------------- BUSCAR CORRIDA POR ID --------------------
+app.get("/corridas/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID inválido" });
+  }
+
+  try {
+      const corrida = await db.collection("corridas").findOne({ _id: new ObjectId(id) });
+
+      if (!corrida) {
+          return res.status(404).json({ message: "Corrida não encontrada" });
+      }
+
+      res.json(corrida);
+  } catch (error) {
+      console.error("Erro ao buscar corrida:", error);
       res.status(500).json({ message: "Erro interno no servidor" });
   }
 });

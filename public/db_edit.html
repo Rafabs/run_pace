@@ -24,35 +24,84 @@
   </nav>
 
   <h2>Editar Corridas</h2>
-  <div id="corridas-container"></div>
+<!-- Botão para adicionar nova corrida -->
+<button onclick="abrirModalAdicionar()">Adicionar Nova Corrida</button>
 
-  <!-- Modal para Adicionar/Editar Corrida -->
-  <div id="corrida-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
+<!-- Lista onde as corridas serão exibidas -->
+<table id="tabelaCorridas">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Data</th>
+      <th>Local</th>
+      <th>Período</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<!-- Modal para Adicionar/Editar Corrida -->
+<div id="corrida-modal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
       <h2 id="modal-title">Adicionar Corrida</h2>
-      <label>Nome do Evento:</label>
-      <input type="text" id="corrida-nome" required>
 
-      <label>Data:</label>
-      <input type="date" id="corrida-data" required>
+      <form id="form-corrida">
+          <input type="hidden" id="corrida-id" value="">
 
-      <label>Local:</label>
-      <input type="text" id="corrida-local" required>
+          <div class="form-group">
+              <label for="corrida-nome">Nome do Evento:</label>
+              <input type="text" id="corrida-nome" required>
+          </div>
 
-      <label>Período:</label>
-      <select id="corrida-periodo">
-        <option>Manhã</option>
-        <option>Tarde</option>
-        <option>Noite</option>
-      </select>
+          <div class="form-group">
+              <label for="corrida-data">Data:</label>
+              <input type="date" id="corrida-data" required>
+          </div>
 
-      <label>Site:</label>
-      <input type="url" id="corrida-site" required>
+          <div class="form-group">
+              <label for="corrida-local">Local:</label>
+              <input type="text" id="corrida-local" required>
+          </div>
 
-      <button id="salvar-corrida">Salvar</button>
-    </div>
+          <div class="form-group">
+              <label for="corrida-periodo">Período:</label>
+              <select id="corrida-periodo">
+                  <option>Manhã</option>
+                  <option>Tarde</option>
+                  <option>Noite</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label for="corrida-site">Site:</label>
+              <input type="url" id="corrida-site" required>
+          </div>
+
+          <div class="form-group">
+              <label for="corrida-lat">Latitude:</label>
+              <input type="text" id="corrida-lat">
+          </div>
+
+          <div class="form-group">
+              <label for="corrida-long">Longitude:</label>
+              <input type="text" id="corrida-long">
+          </div>
+
+          <div class="form-group">
+              <label for="corrida-tipo">Tipo:</label>
+              <input type="text" id="corrida-tipo">
+          </div>
+
+          <div class="button-group">
+              <button type="submit" id="salvar-corrida">Salvar</button>
+              <button type="button" id="excluir-corrida" onclick="excluirCorrida()">Excluir</button>
+          </div>
+      </form>
   </div>
+</div>
 
   <script src="public/js/main.js"></script>
 
