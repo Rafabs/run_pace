@@ -9,7 +9,10 @@ TO DO:
 - [X] Criar mapa com base nas corridas 
 - [X] Inserir barra de pesquisa, onde a corrida pesquisada será filtrada na tabela e exibida no mapa
 - [X] Criar método para inserção de dados no DB via GUI 
-- [ ] Inserir fonte dos dados das imagens no banner ``EM ANDAMENTO``
+- [X] Inserir fonte dos dados das imagens no banner 
+- [ ] Inserir link ao adicionar os banners
+- [ ] Ajustar arquivos nas pastas respectivas
 - [ ] Finalizar ajustes finais de estilos
 - [ ] Tornar responsível 
 - [ ] Validar testes de funcionamento
+- [ ] Planejar atualizações futuras, ex: inserir as corridas em formas de card juntamente com a imagem da mesma

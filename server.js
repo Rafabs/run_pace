@@ -7,20 +7,23 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
+const cors = require("cors");
+app.use(cors({
+    origin: ["http://127.0.0.1:5500", "http://localhost:5500"],  // Requisições do frontend (AJUSTAR QUANDO FOR LANÇAR*******) 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    allowedHeaders: ["Content-Type", "Authorization"], 
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
 app.use(session({
   secret: process.env.SESSION_SECRET || "seuSegredo",
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false } // cookie: { secure: process.env.NODE_ENV === "production" } << Quando em produção
-}));
-const cors = require("cors");
-app.use(cors({
-    origin: "http://127.0.0.1:5500", // Requisições do frontend (AJUSTAR QUANDO FOR LANÇAR*******) 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
-    allowedHeaders: ["Content-Type", "Authorization"], 
-    credentials: true
 }));
 
 const uri = "mongodb://localhost:27017"; //(AJUSTAR QUANDO FOR LANÇAR*******) 
@@ -83,6 +86,69 @@ function authMiddleware(req, res, next) {
 app.get("/db_edit", authMiddleware, (req, res) => {
   console.log("Usuário autenticado:", req.session.user);
   res.sendFile(__dirname + "/public/db_edit.html");
+});
+
+// /api/banners (GET, POST, DELETE)
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public", "uploads"));
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName);
+  },
+});
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true); // Aceita apenas imagens
+    } else {
+      cb(new Error("Tipo de arquivo não suportado"), false);
+    }
+  },
+});
+
+// Rota de upload com campo 'imagem'
+const bannerUploadRoute = [upload.single("imagem")]; 
+app.post("/api/banners", bannerUploadRoute, async (req, res) => {
+  console.log("Recebendo POST /api/banners");
+  console.log("Headers:", req.headers);
+  console.log("Body:", req.body);
+  console.log("File:", req.file);
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Nenhum arquivo enviado." });
+    }
+
+    const { filename } = req.file;
+    const alt = req.body.alt || "";
+    const url = `/uploads/${filename}`;
+
+    await db.collection("banners").insertOne({ url, alt, createdAt: new Date() });
+    
+    res.status(201).json({ message: "Banner adicionado com sucesso", url });
+  } catch (err) {
+    console.error("Erro ao adicionar banner:", err);
+    res.status(500).json({ message: "Erro interno ao salvar banner." });
+  }
+});
+app.get("/api/banners", async (req, res) => {
+    try {
+      const banners = await db.collection("banners").find().toArray();
+      res.json(banners);
+  } catch (err) {
+    console.error("Erro ao carregar banners:", err);
+    res.status(500).json({ message: "Erro ao buscar banners." });
+  }
+});
+
+// Excluir banner
+app.delete("/api/banners/:id", async (req, res) => {
+  const { id } = req.params;
+  await db.collection("banners").deleteOne({ _id: new ObjectId(id) });
+  res.json({ message: "Banner removido com sucesso" });
 });
 
 // -------------------- ROTA PARA LISTAR CORRIDAS --------------------

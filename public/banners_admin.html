@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel de Banners | Run Pace</title>
+  <link rel="stylesheet" href="public/css/banners.css" /> 
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Admin - Banners</h1>
+    <a href="db_edit.html">Voltar para Corridas</a>
+  </nav>
+
+  <main>
+    <section class="form-section">
+      <h2>Adicionar Novo Banner</h2>
+      <form id="form-banner" enctype="multipart/form-data">
+        <label for="banner-input">Imagem:</label>
+        <input type="file" id="banner-input" name="imagem" accept="image/*" required />
+      
+        <label for="banner-alt">Texto Alternativo:</label>
+        <input type="url" id="banner-alt" name="alt" placeholder="Descrição da imagem" required />
+      
+        <button type="submit">Adicionar Banner</button>
+      </form>      
+    </section>
+
+    <section class="preview-section">
+      <h2>Banners Atuais</h2>
+      <ul id="banner-list"></ul>
+    </section>
+  </main>
+
+  <script src="public/js/banners_admin.js"></script>
+</body>
+</html>

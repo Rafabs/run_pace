@@ -43,12 +43,14 @@ function iniciarCarrossel() {
   }
 
   function prevSlide() {
-    currentSlide = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+    currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
     showSlide(currentSlide);
   }
 
-  slideInterval = setInterval(nextSlide, 3000);
-  showSlide(currentSlide);
+  if (slides.length > 0) {
+    showSlide(currentSlide);
+    slideInterval = setInterval(nextSlide, 3000);
+  }
 
   if (prevButton && nextButton) {
     prevButton.addEventListener("click", () => {
@@ -62,6 +64,50 @@ function iniciarCarrossel() {
     });
   }
 }
+
+// -------------------- CARREGAR BANNERS PARA O CARROSSEL --------------------
+async function carregarBannersCarrossel() {
+  const container = document.querySelector(".carousel-container");
+  if (!container) return;
+
+  try {
+    const response = await fetch("http://localhost:3000/api/banners");
+    const banners = await response.json();
+
+    if (!banners.length) {
+      container.innerHTML = `<p style="text-align:center;">Nenhuma imagem disponível.</p>`;
+      return;
+    }
+
+    const slidesHtml = banners.map(b => `
+      <div class="carousel-slide">
+        <img src="http://localhost:3000${b.url}" alt="${b.alt || ''}">
+      </div>
+    `).join('');
+
+    const controlsHtml = `
+      <div class="carousel-controls">
+        <button class="carousel-prev">&#10094;</button>
+        <button class="carousel-next">&#10095;</button>
+      </div>
+    `;
+
+    container.innerHTML = slidesHtml + controlsHtml;
+
+    iniciarCarrossel(); // Chama aqui após inserir slides e botões
+  } catch (error) {
+    console.error("Erro ao carregar banners no carrossel:", error);
+    container.innerHTML = `<p>Erro ao carregar imagens do carrossel.</p>`;
+  }
+}
+
+// -------------------- AO CARREGAR A PÁGINA --------------------
+document.addEventListener("DOMContentLoaded", () => {
+  // Só carrega se existir o container do carrossel
+  if (document.querySelector(".carousel-container")) {
+    carregarBannersCarrossel();
+  }
+});
 
 // -------------------- LISTAGEM PÚBLICA DE CORRIDAS --------------------
 let map = null;
@@ -277,31 +323,31 @@ function renderizarCorridas(corridas) {
 
 // Função para carregar todas as corridas
 async function carregarCorridas() {
-    try {
-        const resposta = await fetch("http://localhost:3000/corridas");
-        if (!resposta.ok) throw new Error("Erro ao buscar corridas");
+  try {
+      const resposta = await fetch("http://localhost:3000/corridas");
+      if (!resposta.ok) throw new Error("Erro ao buscar corridas");
 
-        let corridas = await resposta.json();
+      let corridas = await resposta.json();
 
-        corridas.sort((a, b) => new Date(a.DATA) - new Date(b.DATA));
+      corridas.sort((a, b) => new Date(a.DATA) - new Date(b.DATA));
 
-        const tabela = document.querySelector("#tabelaCorridas tbody");
-        tabela.innerHTML = ""; // Limpa tabela
+      const tabela = document.querySelector("#tabelaCorridas tbody");
+      tabela.innerHTML = ""; // Limpa tabela
 
-        corridas.forEach(corrida => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${corrida.NOME_EVENTO}</td>
-                <td>${formatarDataParaBR(corrida.DATA)}</td>
-                <td>${corrida.LOCAL}</td>
-                <td>${corrida.PERIODO}</td>
-                <td><button onclick="abrirModalEditar('${corrida._id}')">Editar</button></td>
-            `;
-            tabela.appendChild(row);
-        });
-    } catch (erro) {
-        console.error("Erro ao carregar corridas:", erro);
-    }
+      corridas.forEach(corrida => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+              <td>${corrida.NOME_EVENTO}</td>
+              <td>${formatarDataParaBR(corrida.DATA)}</td>
+              <td>${corrida.LOCAL}</td>
+              <td>${corrida.PERIODO}</td>
+              <td><button onclick="excluirCorrida('${corrida._id}')">Excluir</button></td>
+          `;
+          tabela.appendChild(row);
+      });
+  } catch (erro) {
+      console.error("Erro ao carregar corridas:", erro);
+  }
 }
 
 async function carregarCorridasIndex() {

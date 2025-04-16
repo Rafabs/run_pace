@@ -1,0 +1,13 @@
+{
+  "name": "run_pace",
+  "version": "1.0.0",
+  "description": "PARA EXECUTAR EM LOCAL:\r CMD - na pasta do server.js: node server.js (Validar conexão ao DB)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
