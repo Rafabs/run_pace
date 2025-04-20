@@ -12,18 +12,18 @@
   </nav>
 
   <main>
-    <section class="form-section">
-      <h2>Adicionar Novo Banner</h2>
-      <form id="form-banner" enctype="multipart/form-data">
-        <label for="banner-input">Imagem:</label>
-        <input type="file" id="banner-input" name="imagem" accept="image/*" required />
-      
-        <label for="banner-alt">Texto Alternativo:</label>
-        <input type="url" id="banner-alt" name="alt" placeholder="Descrição da imagem" required />
-      
-        <button type="submit">Adicionar Banner</button>
-      </form>      
-    </section>
+    <form id="form-banner" enctype="multipart/form-data">
+      <label for="banner-input">Imagem:</label>
+      <input type="file" id="banner-input" name="imagem" accept="image/*" required />
+    
+      <label for="banner-link">Link do banner:</label>
+      <input type="url" id="banner-link" name="link" placeholder="https://..." required />
+    
+      <label for="banner-alt">Texto alternativo:</label>
+      <input type="text" id="banner-alt" name="alt" placeholder="Descrição da imagem" required />
+    
+      <button type="submit">Adicionar Banner</button>
+    </form>      
 
     <section class="preview-section">
       <h2>Banners Atuais</h2>

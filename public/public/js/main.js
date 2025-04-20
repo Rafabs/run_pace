@@ -81,9 +81,11 @@ async function carregarBannersCarrossel() {
 
     const slidesHtml = banners.map(b => `
       <div class="carousel-slide">
-        <img src="http://localhost:3000${b.url}" alt="${b.alt || ''}">
+        <a href="${b.link}" target="_blank">
+          <img src="http://localhost:3000${b.url}" alt="${b.alt || ''}">
+        </a>
       </div>
-    `).join('');
+    `).join('');    
 
     const controlsHtml = `
       <div class="carousel-controls">

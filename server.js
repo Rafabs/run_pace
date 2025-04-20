@@ -103,52 +103,56 @@ const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {
-      cb(null, true); // Aceita apenas imagens
+      cb(null, true);
     } else {
       cb(new Error("Tipo de arquivo não suportado"), false);
     }
   },
 });
 
-// Rota de upload com campo 'imagem'
-const bannerUploadRoute = [upload.single("imagem")]; 
-app.post("/api/banners", bannerUploadRoute, async (req, res) => {
+app.post("/api/banners", upload.single("imagem"), async (req, res) => {
   console.log("Recebendo POST /api/banners");
   console.log("Headers:", req.headers);
   console.log("Body:", req.body);
   console.log("File:", req.file);
+
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "Nenhum arquivo enviado." });
+    if (!req.file || !req.body.link || !req.body.alt) {
+      return res.status(400).json({ message: "Preencha todos os campos obrigatórios." });
     }
 
     const { filename } = req.file;
-    const alt = req.body.alt || "";
+    const link = req.body.link; // Link do banner
+    const alt = req.body.alt; // Descrição alternativa
     const url = `/uploads/${filename}`;
 
-    await db.collection("banners").insertOne({ url, alt, createdAt: new Date() });
-    
+    await db.collection("banners").insertOne({ url, alt, link, createdAt: new Date() });
     res.status(201).json({ message: "Banner adicionado com sucesso", url });
   } catch (err) {
     console.error("Erro ao adicionar banner:", err);
     res.status(500).json({ message: "Erro interno ao salvar banner." });
   }
 });
-app.get("/api/banners", async (req, res) => {
-    try {
-      const banners = await db.collection("banners").find().toArray();
-      res.json(banners);
-  } catch (err) {
-    console.error("Erro ao carregar banners:", err);
-    res.status(500).json({ message: "Erro ao buscar banners." });
-  }
-});
 
-// Excluir banner
-app.delete("/api/banners/:id", async (req, res) => {
+app.delete("/api/banners/:id", upload.single("imagem"), async (req, res) => {
   const { id } = req.params;
   await db.collection("banners").deleteOne({ _id: new ObjectId(id) });
   res.json({ message: "Banner removido com sucesso" });
+});
+
+
+app.get("/api/banners", async (req, res) => {
+  try {
+    const banners = await db.collection("banners")
+      .find({})
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    res.json(banners);
+  } catch (err) {
+    console.error("Erro ao buscar banners:", err);
+    res.status(500).json({ message: "Erro ao carregar banners" });
+  }
 });
 
 // -------------------- ROTA PARA LISTAR CORRIDAS --------------------
