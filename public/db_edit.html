@@ -25,91 +25,109 @@
 
   <h2>Editar Corridas</h2>
 
-<!-- Botão para acessar o painel de banners -->
-<div style="margin-bottom: 20px;">
-  <button onclick="window.location.href='banners_admin.html'" style="padding: 8px 12px; background-color: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    🖼️ Editar Banners
-  </button>
-</div>
+  <!-- Botão para acessar o painel de banners -->
+  <div style="margin-bottom: 20px;">
+    <button onclick="window.location.href='banners_admin.html'"
+      style="padding: 8px 12px; background-color: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      🖼️ Editar Banners
+    </button>
+  </div>
 
-<!-- Botão para adicionar nova corrida -->
-<button onclick="abrirModalAdicionar()">Adicionar Nova Corrida</button>
+  <!-- Botão para adicionar nova corrida -->
+  <button onclick="abrirModalAdicionar()">Adicionar Nova Corrida</button>
 
-<!-- Lista onde as corridas serão exibidas -->
-<table id="tabelaCorridas">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Data</th>
-      <th>Local</th>
-      <th>Período</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+  <!-- Lista onde as corridas serão exibidas -->
+  <table id="tabelaCorridas">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Data</th>
+        <th>Local</th>
+        <th>Período</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 
-<!-- Modal para Adicionar/Editar Corrida -->
-<div id="corrida-modal" class="modal">
-  <div class="modal-content">
+  <!-- Modal para Adicionar/Editar Corrida -->
+  <div id="corrida-modal" class="modal">
+    <div class="modal-content">
       <span class="close" onclick="fecharModal()">&times;</span>
       <h2 id="modal-title">Adicionar Corrida</h2>
 
       <form id="form-corrida">
-          <input type="hidden" id="corrida-id" value="">
+        <input type="hidden" id="corrida-id" value="">
 
-          <div class="form-group">
-              <label for="corrida-nome">Nome do Evento:</label>
-              <input type="text" id="corrida-nome" required>
-          </div>
+        <div class="form-group">
+          <label for="corrida-nome">Nome do Evento:</label>
+          <input type="text" id="corrida-nome" required>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-data">Data:</label>
-              <input type="date" id="corrida-data" required>
-          </div>
+        <div class="form-group">
+          <label for="corrida-data">Data:</label>
+          <input type="date" id="corrida-data" required>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-local">Local:</label>
-              <input type="text" id="corrida-local" required>
-          </div>
+        <div class="form-group">
+          <label for="corrida-local">Local:</label>
+          <input type="text" id="corrida-local" required>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-periodo">Período:</label>
-              <select id="corrida-periodo">
-                  <option>Manhã</option>
-                  <option>Tarde</option>
-                  <option>Noite</option>
-              </select>
-          </div>
+        <div class="form-group">
+          <label for="corrida-periodo">Período:</label>
+          <select id="corrida-periodo">
+            <option>Manhã</option>
+            <option>Tarde</option>
+            <option>Noite</option>
+          </select>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-site">Site:</label>
-              <input type="url" id="corrida-site" required>
-          </div>
+        <div class="form-group">
+          <label for="corrida-publico">Público:</label>
+          <select id="corrida-publico" name="publico" required>
+            <option value="Adulto">🧍 Adulto</option>
+            <option value="Infantil">🧒 Infantil</option>
+            <option value="Adulto e Infantil">🧍🧒 Adulto e Infantil</option>
+          </select>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-lat">Latitude:</label>
-              <input type="text" id="corrida-lat">
-          </div>
+        <div class="form-group">
+          <label for="corrida-medalha">Medalha:</label>
+          <select id="corrida-medalha" name="medalha" required>
+            <option value="Sim">🏅 Sim</option>
+            <option value="Não">❌ Não</option>
+          </select>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-long">Longitude:</label>
-              <input type="text" id="corrida-long">
-          </div>
+        <div class="form-group">
+          <label for="corrida-site">Site:</label>
+          <input type="url" id="corrida-site" required>
+        </div>
 
-          <div class="form-group">
-              <label for="corrida-tipo">Tipo:</label>
-              <input type="text" id="corrida-tipo">
-          </div>
+        <div class="form-group">
+          <label for="corrida-lat">Latitude:</label>
+          <input type="text" id="corrida-lat">
+        </div>
 
-          <div class="button-group">
-              <button type="submit" id="salvar-corrida">Salvar</button>
-              <button type="button" id="excluir-corrida" onclick="excluirCorrida()">Excluir</button>
-          </div>
+        <div class="form-group">
+          <label for="corrida-long">Longitude:</label>
+          <input type="text" id="corrida-long">
+        </div>
+
+        <div class="form-group">
+          <label for="corrida-tipo">Tipo:</label>
+          <input type="text" id="corrida-tipo">
+        </div>
+
+        <div class="button-group">
+          <button type="submit" id="salvar-corrida">Salvar</button>
+          <button type="button" id="excluir-corrida" onclick="excluirCorrida()">Excluir</button>
+        </div>
       </form>
+    </div>
   </div>
-</div>
 
   <script src="public/js/main.js"></script>
 

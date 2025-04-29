@@ -169,13 +169,13 @@ app.get("/corridas", async (req, res) => {
 // -------------------- INSERIR CORRIDA --------------------
 app.post("/corridas", async (req, res) => {
   try {
-        const { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO } = req.body;
+        const { NOME_EVENTO, DATA, LOCAL, PERIODO, PUBLICO, MEDALHA, SITE, LAT, LONG, TIPO } = req.body;
 
-      if (!NOME_EVENTO || !DATA || !LOCAL || !PERIODO || !SITE || !LAT || !LONG || !TIPO) {
+      if (!NOME_EVENTO || !DATA || !LOCAL || !PERIODO || !PUBLICO || !MEDALHA || !SITE || !LAT || !LONG || !TIPO) {
           return res.status(400).json({ message: "Todos os campos são obrigatórios." });
       }
 
-      const novaCorrida = { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO };
+      const novaCorrida = { NOME_EVENTO, DATA, LOCAL, PERIODO, PUBLICO, MEDALHA, SITE, LAT, LONG, TIPO };
       const result = await db.collection("corridas").insertOne(novaCorrida);
       
       return res.status(201).json({ 
@@ -195,13 +195,13 @@ app.put("/corridas/:id", authMiddleware, async (req, res) => {
         return res.status(400).json({ message: "ID inválido" });
     }
 
-    const { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO } = req.body;
+    const { NOME_EVENTO, DATA, LOCAL, PERIODO, PUBLICO, MEDALHA, SITE, LAT, LONG, TIPO } = req.body;
 
     try {
         const resultado = await db.collection("corridas").updateOne(
             { _id: new ObjectId(id) },
             { 
-                $set: { NOME_EVENTO, DATA, LOCAL, PERIODO, SITE, LAT, LONG, TIPO } 
+                $set: { NOME_EVENTO, DATA, LOCAL, PERIODO, PUBLICO, MEDALHA, SITE, LAT, LONG, TIPO } 
             }
         );
 

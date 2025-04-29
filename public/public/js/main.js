@@ -143,22 +143,26 @@ async function carregarCorridasPublicas() {
                 <td>${corrida.NOME_EVENTO}</td>
                 <td>${corrida.LOCAL}</td>
                 <td>${corrida.PERIODO}</td>
+                <td>${corrida.PUBLICO}</td>
+                <td>${corrida.MEDALHA}</td>
+                <td>${corrida.TIPO}</td>
                 <td><a href="${
                   corrida.SITE
                 }" target="_blank">Saiba Mais</a></td>
             `;
       tabela.appendChild(row);
 
+      // Exibição no mapa
       if (corrida.LAT && corrida.LONG) {
         const latitude = parseFloat(corrida.LAT);
         const longitude = parseFloat(corrida.LONG);
         const marker = L.marker([latitude, longitude]).addTo(map);
         marker.bindPopup(`
-                    <strong>${corrida.NOME_EVENTO}</strong><br>
-                    📍 ${corrida.LOCAL}<br>
-                    🗓 ${corrida.DATA} - ${corrida.PERIODO}<br>
-                    <a href="${corrida.SITE}" target="_blank">Saiba Mais</a>
-                `);
+          <strong>${corrida.NOME_EVENTO}</strong><br>
+          📍 ${corrida.LOCAL}<br>
+          🗓 ${corrida.DATA} - ${corrida.PERIODO} - ${corrida.PUBLICO}<br>
+          <a href="${corrida.SITE}" target="_blank">Saiba Mais</a>
+        `);        
       }
     });
   } catch (error) {
@@ -190,8 +194,9 @@ function filtrarCorridas() {
             <td>${corrida.NOME_EVENTO}</td>
             <td>${corrida.LOCAL}</td>
             <td>${corrida.PERIODO}</td>
-            <td>${corrida.LAT}</td>
-            <td>${corrida.LONG}</td>
+            <td>${corrida.PUBLICO}</td>
+            <td>${corrida.MEDALHA}</td>
+            <td>${corrida.TIPO}</td>
             <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
         `;
     row.addEventListener("click", () => {
@@ -205,7 +210,7 @@ function filtrarCorridas() {
   });
 
   if (corridasFiltradas.length === 0) {
-    tabela.innerHTML = `<tr><td colspan="5">Nenhuma corrida encontrada.</td></tr>`;
+    tabela.innerHTML = `<tr><td colspan="8">Nenhuma corrida encontrada.</td></tr>`;
   }
 }
 
@@ -262,6 +267,9 @@ function abrirModal(titulo, dados = {}) {
   document.getElementById("corrida-lat").value = dados.LAT || "";
   document.getElementById("corrida-long").value = dados.LONG || "";
   document.getElementById("corrida-periodo").value = dados.PERIODO || "Manhã";
+  document.getElementById("corrida-publico").value = dados.PUBLICO || "Adulto";
+  document.getElementById("corrida-publico").value = dados.MEDALHA || "Sim";
+  document.getElementById("corrida-tipo").value = dados.TIPO || "";
   document.getElementById("corrida-site").value = dados.SITE || "";
 
   document.getElementById("corrida-modal").style.display = "block";
@@ -356,11 +364,11 @@ async function carregarCorridasIndex() {
     const resposta = await fetch("http://localhost:3000/corridas");
     const corridas = await resposta.json();
   
-    // 🔢 Ordenar por data crescente
+    // Ordena por data crescente
     corridas.sort((a, b) => new Date(a.DATA) - new Date(b.DATA));
   
     const tbody = document.getElementById("corridas-list");
-    if (!tbody) return; // ✅ Garante que só roda na index.html
+    if (!tbody) return; 
   
     tbody.innerHTML = "";
   
@@ -371,6 +379,19 @@ async function carregarCorridasIndex() {
         <td>${corrida.NOME_EVENTO}</td>
         <td>${corrida.LOCAL}</td>
         <td>${corrida.PERIODO}</td>
+        <td>${
+          corrida.PUBLICO === "Adulto e Infantil"
+            ? "🧍🧒"
+            : corrida.PUBLICO === "Infantil"
+            ? "🧒"
+            : "🧍"
+        }</td>
+        <td>${
+          corrida.MEDALHA === "Sim"
+            ? "🏅"
+            : "❌"
+        }</td>        
+        <td>${corrida.TIPO}</td>
         <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
       `;
       tbody.appendChild(tr);
@@ -410,6 +431,8 @@ function abrirModalAdicionar() {
   document.getElementById("corrida-data").value = "";
   document.getElementById("corrida-local").value = "";
   document.getElementById("corrida-periodo").value = "Manhã";
+  document.getElementById("corrida-publico").value = "Adulto";
+  document.getElementById("corrida-medalha").value = "Sim";
   document.getElementById("corrida-site").value = "";
   document.getElementById("corrida-lat").value = "";
   document.getElementById("corrida-long").value = "";
@@ -436,6 +459,8 @@ async function abrirModalEditar(id) {
       : "";
     document.getElementById("corrida-local").value = corrida.LOCAL;
     document.getElementById("corrida-periodo").value = corrida.PERIODO;
+    document.getElementById("corrida-publico").value = corrida.PUBLICO;
+    document.getElementById("corrida-medalha").value = corrida.MEDALHA;
     document.getElementById("corrida-site").value = corrida.SITE;
     document.getElementById("corrida-lat").value = corrida.LAT || "";
     document.getElementById("corrida-long").value = corrida.LONG || "";
@@ -473,6 +498,8 @@ async function salvarCorrida() {
     DATA: document.getElementById("corrida-data").value,
     LOCAL: document.getElementById("corrida-local").value,
     PERIODO: document.getElementById("corrida-periodo").value,
+    PUBLICO: document.getElementById("corrida-publico").value,
+    MEDALHA: document.getElementById("corrida-medalha").value,
     SITE: document.getElementById("corrida-site").value,
     LAT: lat !== "" ? parseFloat(lat) : null,
     LONG: long !== "" ? parseFloat(long) : null,

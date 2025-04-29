@@ -11,7 +11,7 @@ TO DO:
 - [X] Criar método para inserção de dados no DB via GUI 
 - [X] Inserir fonte dos dados das imagens no banner 
 - [X] Inserir link ao adicionar os banners
-- [ ] INSERIR EMOJIS (INFANTIL/MEDALHA)
+- [X] INSERIR EMOJIS (INFANTIL/MEDALHA)
 - [ ] TESTAR COM GOOGLE MAPS
 - [ ] INSERIR AGRUPAMENTOS ALFINETES MAPA
 - [ ] INSERIR LAT/LONG NO DB PARA USUÁRIO CRIAR ROTA ATÉ A CORRIDA 
