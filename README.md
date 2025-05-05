@@ -12,8 +12,8 @@ TO DO:
 - [X] Inserir fonte dos dados das imagens no banner 
 - [X] Inserir link ao adicionar os banners
 - [X] INSERIR EMOJIS (INFANTIL/MEDALHA)
-- [ ] TESTAR COM GOOGLE MAPS
-- [ ] INSERIR AGRUPAMENTOS ALFINETES MAPA
+- [ ] TESTAR COM GOOGLE MAPS :PENDENTE/INVIÁVEL:
+- [X] INSERIR AGRUPAMENTOS ALFINETES MAPA
 - [ ] INSERIR LAT/LONG NO DB PARA USUÁRIO CRIAR ROTA ATÉ A CORRIDA 
 - [ ] INSERIR REGRAS DO TAMANHO DO BANNER
 - [ ] Ajustar arquivos nas pastas respectivas

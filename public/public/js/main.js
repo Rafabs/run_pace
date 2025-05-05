@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
   iniciarCarrossel();
 
   if (document.getElementById("corridas-list")) {
+    console.log("✅ corridas-list encontrado, carregando corridas...");
     carregarCorridasPublicas();
-  }
+  } else {
+    console.warn("⚠️ corridas-list não encontrado. Pular carregarCorridasPublicas.");
+  }  
 
   if (document.getElementById("login-form")) {
     configurarLogin();
@@ -116,18 +119,21 @@ let map = null;
 let todasCorridas = [];
 
 async function carregarCorridasPublicas() {
+  const tabela = document.getElementById("corridas-list");
+  if (!tabela) {
+    console.warn("⚠️ Elemento #corridas-list não encontrado. Corridas não serão carregadas.");
+    return;
+  }
+
   try {
-    const response = await fetch("http://localhost:3000/corridas"); //(AJUSTAR QUANDO FOR LANÇAR*******)
+    const response = await fetch("http://localhost:3000/corridas");
     if (!response.ok) throw new Error("Erro ao carregar os dados");
 
     const data = await response.json();
     todasCorridas = data;
-    console.log(data);
 
-    const tabela = document.getElementById("corridas-list");
     tabela.innerHTML = "";
 
-    // Inicializa o mapa
     if (!map) {
       map = L.map("map").setView([-23.55052, -46.633308], 10);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -135,38 +141,38 @@ async function carregarCorridasPublicas() {
       }).addTo(map);
     }
 
-    // Dados que serão exibidos na tabela na página inicial
+    const markers = L.markerClusterGroup();
+
     data.forEach((corrida) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-                <td>${formatarDataParaBR(corrida.DATA)}</td>
-                <td>${corrida.NOME_EVENTO}</td>
-                <td>${corrida.LOCAL}</td>
-                <td>${corrida.PERIODO}</td>
-                <td>${corrida.PUBLICO}</td>
-                <td>${corrida.MEDALHA}</td>
-                <td>${corrida.TIPO}</td>
-                <td><a href="${
-                  corrida.SITE
-                }" target="_blank">Saiba Mais</a></td>
-            `;
+        <td>${formatarDataParaBR(corrida.DATA)}</td>
+        <td>${corrida.NOME_EVENTO}</td>
+        <td>${corrida.LOCAL}</td>
+        <td>${corrida.PERIODO}</td>
+        <td>${corrida.PUBLICO}</td>
+        <td>${corrida.MEDALHA}</td>
+        <td>${corrida.TIPO}</td>
+        <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+      `;
       tabela.appendChild(row);
 
-      // Exibição no mapa
       if (corrida.LAT && corrida.LONG) {
-        const latitude = parseFloat(corrida.LAT);
-        const longitude = parseFloat(corrida.LONG);
-        const marker = L.marker([latitude, longitude]).addTo(map);
+        const marker = L.marker([parseFloat(corrida.LAT), parseFloat(corrida.LONG)]);
         marker.bindPopup(`
           <strong>${corrida.NOME_EVENTO}</strong><br>
           📍 ${corrida.LOCAL}<br>
           🗓 ${corrida.DATA} - ${corrida.PERIODO} - ${corrida.PUBLICO}<br>
           <a href="${corrida.SITE}" target="_blank">Saiba Mais</a>
-        `);        
+        `);
+        markers.addLayer(marker);
       }
     });
+
+    map.addLayer(markers);
+
   } catch (error) {
-    console.error("Erro ao buscar corridas:", error);
+    console.error("Erro ao carregar corridas:", error);
     alert("Erro ao carregar corridas. Tente novamente mais tarde.");
   }
 }
