@@ -262,3 +262,8 @@ app.get("/corridas/:id", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+// -------------------- 404 --------------------
+app.use((req, res) => {
+  res.status(404).sendFile(__dirname + '/public/404.html');
+});

@@ -16,8 +16,11 @@ TO DO:
 - [X] INSERIR AGRUPAMENTOS ALFINETES MAPA
 - [ ] INSERIR LAT/LONG NO DB PARA USUÁRIO CRIAR ROTA ATÉ A CORRIDA 
 - [ ] INSERIR REGRAS DO TAMANHO DO BANNER
-- [ ] Ajustar arquivos nas pastas respectivas
+- [X] Ajustar arquivos nas pastas respectivas
 - [ ] Finalizar ajustes finais de estilos
+- [X] Criar página de Termos e Condições
+- [X] Criar página 404.html estilizada
 - [ ] Tornar responsível 
+- [ ] Definir o que terá na Navbar
 - [ ] Validar testes de funcionamento
 - [ ] Planejar atualizações futuras, ex: inserir as corridas em formas de card juntamente com a imagem da mesma
