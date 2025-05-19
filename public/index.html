@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/jpg" href="images/imgs/favicon.jpg" />
+  <link rel="icon" type="image/png" href="public\images\LOGO APP NEXT PACE color no people 2.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Run Pace - Próximas Corridas</title>
   <link rel="stylesheet" href="css/style.css" />
@@ -36,10 +36,16 @@
   <section>
     <h2>Próximas Corridas</h2>
 
-    <!-- Barra de pesquisa -->
-    <section>
-      <input type="text" id="search-bar" placeholder="Digite o nome do evento" oninput="filtrarEventos()" />
-    </section>
+  <!-- Barra de pesquisa estilizada -->
+  <section class="search-container">
+    <div class="search-wrapper">
+      <input type="text" 
+            id="search-bar" 
+            placeholder="Digite o nome do evento..." 
+            oninput="filtrarEventos()" />
+      <i class="fa fa-search search-icon"></i>
+    </div>
+  </section>
 
     <table border="1">
       <thead>
@@ -99,7 +105,7 @@
   <!-- Espaço para o mapa -->
   <section>
     <h2>Consulte no mapa</h2>
-    <div id="map" style="height: 300px; width: 50%"></div>
+    <div id="map"></div>
   </section>
 
   <!-- Leaflet core -->

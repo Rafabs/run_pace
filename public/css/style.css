@@ -3,45 +3,41 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #FAFAFA; /* Branco suave */
     color: #333;
 }
 
-/* Estiliza a barra de navegação */
+/* Navbar */
 .navbar {
-    display: flex; /* Ativa o Flexbox */
-    align-items: center; /* Alinha verticalmente os itens */
-    justify-content: space-between; /* Logo à esquerda, menu à direita */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 15px 30px;
-    background-color: #007bff; /* Azul moderno (ajuste conforme necessário) */
+    background-color: #FF6F00; /* Laranja intenso */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Ajusta a logo no canto esquerdo */
 .logo {
-    width: 60px; /* Ajuste o tamanho conforme necessário */
+    width: 60px;
     height: auto;
     border-radius: 10px;
 }
 
-/* Estiliza a lista do menu */
 .navbar ul {
     list-style: none;
-    display: flex; /* Itens em linha */
-    gap: 25px; /* Espaço entre os itens */
+    display: flex;
+    gap: 25px;
     padding: 0;
     margin: 0;
 }
 
-/* Estiliza os itens do menu */
 .navbar ul li {
     display: inline;
 }
 
-/* Estiliza os links */
 .navbar ul li a {
     text-decoration: none;
-    color: white; /* Cor do texto */
+    color: #FAFAFA;
     font-weight: bold;
     font-size: 16px;
     padding: 10px 15px;
@@ -49,27 +45,31 @@ body {
     transition: background 0.3s ease-in-out;
 }
 
-/* Efeito ao passar o mouse */
 .navbar ul li a:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
 /* Carrossel */
+/* Container do carrossel compacto */
 .carousel-container {
     position: relative;
-    width: 100%;
-    max-width: 800px; /* Ajuste conforme necessário */
-    margin: 20px auto; /* Adiciona espaçamento superior e mantém centralizado */
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
     overflow: hidden;
-    border-radius: 10px; /* Cantos arredondados */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(255, 111, 0, 0.2); /* Sombra laranja suave */
+    border: 2px solid #FFC107; /* Borda amarela dourada */
 }
 
+/* Imagens do carrossel */
 .carousel-slide img {
     width: 100%;
     display: block;
-    border-radius: 10px; /* Bordas arredondadas nas imagens */
+    border-radius: 10px;
 }
 
+/* Controles do carrossel - versão compacta */
 .carousel-controls {
     position: absolute;
     top: 50%;
@@ -77,47 +77,72 @@ body {
     display: flex;
     justify-content: space-between;
     transform: translateY(-50%);
-    pointer-events: none; /* Impede que os botões interfiram no clique da imagem */
+    pointer-events: none;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .carousel-prev,
 .carousel-next {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    background-color: rgba(255, 193, 7, 0.9); /* Amarelo dourado */
+    color: #D32F2F; /* Vermelho vibrante */
     border: none;
-    padding: 10px 15px;
     cursor: pointer;
-    font-size: 20px;
-    transition: background 0.3s;
-    pointer-events: auto; /* Permite interação nos botões */
+    font-size: 24px;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
 }
 
 .carousel-prev:hover,
 .carousel-next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #FF6F00; /* Laranja intenso */
+    color: white;
+    transform: scale(1.1);
 }
 
-.carousel-prev {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+/* Seta esquerda */
+.carousel-prev::before {
+    content: '←';
+    position: relative;
+    right: -1px;
 }
 
-.carousel-next {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+/* Seta direita */
+.carousel-next::before {
+    content: '→';
+    position: relative;
+    left: -1px;
 }
 
-/* Centraliza tudo */
+/* Efeito de clique sutil */
+.carousel-prev:active,
+.carousel-next:active {
+    transform: scale(0.98);
+}
+
+/* Centralização geral */
 section {
     text-align: center;
     margin: 20px auto;
 }
 
-/* Estiliza a tabela */
+/* Tabela */
 table {
-    width: 80%; /* Deixa a tabela com largura fixa */
-    margin: 0 auto; /* Centraliza horizontalmente */
+    width: 80%;
+    margin: 0 auto;
     border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 th, td {
@@ -127,10 +152,10 @@ th, td {
 }
 
 th {
-    background-color: #f4f4f4;
+    background-color: #FFC107; /* Amarelo dourado */
 }
 
-/* Centraliza o mapa */
+/* Mapa */
 #map {
     height: 400px;
     width: 80%;
@@ -139,62 +164,133 @@ th {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Login e Senha */
-form {border: 3px solid #f1f1f1;}
+/* Login */
+form {
+    border: 3px solid #FFC107;
+}
 
 .barra {
-    background-color: #f1f1f1;
+    background-color: #FFF3E0;
 }
 
 input[type=email], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 button {
-  background-color: #04AA6D;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
+    background-color: #40E0D0; /* Azul turquesa claro */
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
 }
 
 button:hover {
-  opacity: 0.8;
+    opacity: 0.9;
 }
 
 .cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
+    background-color: #FF6347; /* Vermelho suave */
+    color: white;
 }
+
 .container {
-  padding: 16px;
+    padding: 16px;
 }
 
 span.psw {
-  float: right;
-  padding-top: 16px;
+    float: right;
+    padding-top: 16px;
 }
 
-/* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
+    span.psw {
+        display: block;
+        float: none;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+}
+
+/* Estilos para a barra de pesquisa */
+.search-container {
+  margin: 25px auto;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#search-bar {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  font-size: 16px;
+  border: 2px solid #FFC107; /* Amarelo dourado */
+  border-radius: 30px;
+  background-color: #FAFAFA; /* Branco suave */
+  color: #333;
+  box-shadow: 0 4px 8px rgba(255, 111, 0, 0.1);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+#search-bar:focus {
+  border-color: #FF6F00; /* Laranja intenso */
+  box-shadow: 0 4px 12px rgba(255, 111, 0, 0.2);
+  background-color: #FFF;
+}
+
+.search-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #FF7043; /* Coral */
+  font-size: 18px;
+  pointer-events: none;
+}
+
+#search-bar::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Efeito quando preenchido */
+#search-bar:not(:placeholder-shown) {
+  background-color: #FFF9E6;
+  border-color: #FFA500; /* Laranja dourado */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .search-container {
+    padding: 0 15px;
   }
-  .cancelbtn {
-     width: 100%;
+  
+  #search-bar {
+    padding: 12px 45px 12px 15px;
+    font-size: 14px;
+  }
+  
+  .search-icon {
+    right: 15px;
+    font-size: 16px;
   }
 }
 
-/* Estilo do modal */
+/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -203,7 +299,6 @@ span.psw {
     width: 100%; height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.6);
-    font-family: Arial, sans-serif;
 }
 
 .modal-content {
@@ -220,7 +315,7 @@ span.psw {
     margin-top: 0;
     text-align: center;
     font-size: 24px;
-    color: #333;
+    color: #D32F2F; /* Vermelho vibrante */
 }
 
 .close {
@@ -235,14 +330,13 @@ span.psw {
     color: #000;
 }
 
+/* Formulários do modal */
 .form-group {
     margin-bottom: 15px;
 }
 
 .form-group label {
-    display: block;
     font-weight: bold;
-    margin-bottom: 5px;
     color: #333;
 }
 
@@ -250,7 +344,6 @@ span.psw {
 .form-group select {
     width: 100%;
     padding: 8px;
-    box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
@@ -270,60 +363,53 @@ span.psw {
 }
 
 #salvar-corrida {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #98FB98; /* Verde oliva claro */
+    color: #333;
 }
 
 #excluir-corrida {
-    background-color: #f44336;
+    background-color: #D32F2F;
     color: white;
     display: none;
 }
 
 #salvar-corrida:hover {
-    background-color: #45a049;
+    background-color: #8BC48A;
 }
 
 #excluir-corrida:hover {
-    background-color: #d32f2f;
+    background-color: #b71c1c;
 }
 
-/* Tabela de Legenda */
+/* Legenda */
 .legenda-publico-horizontal {
-    margin-top: .1rem;
+    margin-top: 1rem;
     padding: 1.15rem;
     border: 1px solid #ccc;
     border-radius: 12px;
-    background-color: #fdfdfd;
+    background-color: #FFF3E0;
     max-width: 700px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .legenda-publico-horizontal h3 {
+}
+
+.legenda-publico-horizontal h3 {
     margin-bottom: 1rem;
     font-size: 1.3rem;
-    color: #222;
+    color: #FF6F00;
     border-bottom: 1px solid #e0e0e0;
     padding-bottom: 0.25rem;
-  }
-  
-  .legenda-grupo {
-    margin-bottom: 0.5rem;
-  }
-  
-  .legenda-grupo h4 {
-    margin-bottom: 0.15rem;
-    font-size: 1.1rem;
+}
+
+.legenda-grupo h4 {
     color: #444;
-  }
-  
-  .legenda-itens {
+}
+
+.legenda-itens {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-  }
-  
-  .legenda-item {
+}
+
+.legenda-item {
     display: flex;
     align-items: center;
     gap: 0.15rem;
@@ -332,55 +418,34 @@ span.psw {
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     font-size: 0.95rem;
-  }
-  
-  .emoji {
+}
+
+.emoji {
     font-size: 1.5rem;
-  }  
+}
 
 /* Footer */
 footer {
-    background: #222;
+    background: #D32F2F; /* Vermelho vibrante */
     color: white;
     text-align: center;
     padding: 10px;
     margin-top: 20px;
 }
 
-    .footer .row{
-    width:100%;
-    margin:1% 0%;
-    padding:0.6% 0%;
-    color:gray;
-    background-color: #00000060;
-    font-size:0.8em;
-    }
-      
-    .footer .row a{
-    text-decoration:none;
-    color:gray;
-    background-color: #00000060;
-    transition:0.5s;
-    }
-    
-    .footer .row a:hover{
-    color:#fff;
-    background-color: #00000060;
-    }
-    
-    .footer .row ul{
-    width:100%;
-    background-color: #00000060;
-    }
-    
-    .footer .row ul li{
-    display:inline-block;
-    margin:0px 30px;
-    background-color: #00000060;
-    }
-    
-    .footer .row a i{
-    font-size:2em;
-    margin:0% 1%;
-    background-color: #00000060;
-    }
+.footer .row {
+    margin: 1% 0;
+    padding: 0.6% 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-size: 0.8em;
+}
+
+.footer .row a {
+    color: white;
+    margin: 0 10px;
+    transition: 0.5s;
+}
+
+.footer .row a:hover {
+    color: #FFC107; /* Amarelo dourado */
+}

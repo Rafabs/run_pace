@@ -3,6 +3,19 @@
 PARA EXECUTAR EM LOCAL:
 CMD - na pasta do server.js: node server.js (Validar conexão ao DB)
 
+Paleta 1: Nascer do Sol
+Laranja intenso (#FF6F00)
+Amarelo dourado (#FFC107)
+Vermelho vibrante (#D32F2F)
+Coral (#FF7043)
+Branco suave (#FAFAFA)
+
+Laranja Dourado (#FFA500): Traz energia e calor, representando motivação e movimento.
+Vermelho Suave (#FF6347): Um tom acolhedor e convidativo, com energia equilibrada.
+Azul Turquesa Claro (#40E0D0): Adiciona tranquilidade e frescor, proporcionando o toque de calmaria.
+Verde Oliva Claro (#98FB98): Um verde suave e natural que transmite equilíbrio e harmonia.
+
+
 TO DO:
 - [X] Criar DB e integrar ao JS 
 - [X] Ajustar tabela no html com base no DB 
@@ -15,7 +28,7 @@ TO DO:
 - [ ] TESTAR COM GOOGLE MAPS :PENDENTE/INVIÁVEL:
 - [X] INSERIR AGRUPAMENTOS ALFINETES MAPA
 - [ ] INSERIR LAT/LONG NO DB PARA USUÁRIO CRIAR ROTA ATÉ A CORRIDA 
-- [ ] INSERIR REGRAS DO TAMANHO DO BANNER
+- [X] INSERIR REGRAS DO TAMANHO DO BANNER - 1920x700
 - [X] Ajustar arquivos nas pastas respectivas
 - [ ] Finalizar ajustes finais de estilos
 - [X] Criar página de Termos e Condições
