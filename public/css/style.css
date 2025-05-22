@@ -13,12 +13,12 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 15px 30px;
-    background-color: #FF6F00; /* Laranja intenso */
+    background-color: #FFA500; 
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    width: 60px;
+    width: 300px;
     height: auto;
     border-radius: 10px;
 }
@@ -110,14 +110,12 @@ body {
 
 /* Seta esquerda */
 .carousel-prev::before {
-    content: '←';
     position: relative;
     right: -1px;
 }
 
 /* Seta direita */
 .carousel-next::before {
-    content: '→';
     position: relative;
     left: -1px;
 }
@@ -224,18 +222,19 @@ span.psw {
   margin: 25px auto;
   max-width: 800px;
   padding: 0 20px;
+  text-align: center; /* centraliza o conteúdo interno */
 }
 
 .search-wrapper {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px; 
   margin: 0 auto;
 }
 
 #search-bar {
   width: 100%;
-  padding: 15px 50px 15px 20px;
+  padding: 12px 40px 12px 12px; /* espaço à direita para a lupa */
   font-size: 16px;
   border: 2px solid #FFC107; /* Amarelo dourado */
   border-radius: 30px;
@@ -254,7 +253,7 @@ span.psw {
 
 .search-icon {
   position: absolute;
-  right: 20px;
+  right: 1px;
   top: 50%;
   transform: translateY(-50%);
   color: #FF7043; /* Coral */
@@ -388,7 +387,9 @@ span.psw {
     border: 1px solid #ccc;
     border-radius: 12px;
     background-color: #FFF3E0;
-    max-width: 700px;
+    width: 100%; 
+    max-width: 80%; 
+    overflow-x: auto; /* scroll horizontal se necessário */
 }
 
 .legenda-publico-horizontal h3 {
@@ -406,18 +407,21 @@ span.psw {
 .legenda-itens {
     display: flex;
     gap: 1rem;
-    flex-wrap: wrap;
+    justify-content: center;
+    flex-wrap: wrap; /* volta a quebrar linha se precisar */
 }
 
 .legenda-item {
+    flex-shrink: 0; /* impede encolhimento ao rolar */
     display: flex;
     align-items: center;
-    gap: 0.15rem;
+    gap: 0.3rem;
     background: #fff;
-    padding: 0.15rem 0.18rem;
+    padding: 0.4rem 0.6rem;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     font-size: 0.95rem;
+    white-space: nowrap; /* evita quebra de texto */
 }
 
 .emoji {
@@ -425,27 +429,54 @@ span.psw {
 }
 
 /* Footer */
-footer {
-    background: #D32F2F; /* Vermelho vibrante */
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 20px;
+.footer {
+  background: #060178;
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 40px;
+  font-family: 'Segoe UI', sans-serif;
+  border-top: 4px solid #FFC107;
 }
 
-.footer .row {
-    margin: 1% 0;
-    padding: 0.6% 0;
-    background-color: rgba(0, 0, 0, 0.2);
-    font-size: 0.8em;
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.footer .row a {
-    color: white;
-    margin: 0 10px;
-    transition: 0.5s;
+.footer p {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
 }
 
-.footer .row a:hover {
-    color: #FFC107; /* Amarelo dourado */
+.footer-links {
+  margin: 10px 0;
+}
+
+.footer-links a {
+  color: #FAFAFA;
+  margin: 0 12px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #FFC107;
+}
+
+.footer-social {
+  margin-top: 12px;
+}
+
+.footer-social a {
+  color: white;
+  font-size: 1.3rem;
+  margin: 0 8px;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.footer-social a:hover {
+  color: #40E0D0; /* Azul turquesa claro */
+  transform: scale(1.15);
 }

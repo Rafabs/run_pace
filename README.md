@@ -33,7 +33,8 @@ TO DO:
 - [ ] Finalizar ajustes finais de estilos
 - [X] Criar página de Termos e Condições
 - [X] Criar página 404.html estilizada
+- [ ] Filtrar quantidade de itens que serão exibidos na tabela 1-10 / 100 por exemplo
 - [ ] Tornar responsível 
-- [ ] Definir o que terá na Navbar
+- [ ] Definir o que terá na Navbar - Aba de dicas para corridas
 - [ ] Validar testes de funcionamento
 - [ ] Planejar atualizações futuras, ex: inserir as corridas em formas de card juntamente com a imagem da mesma
