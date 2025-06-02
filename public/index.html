@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Run Pace - Próximas Corridas</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 
 <body>
@@ -35,17 +35,24 @@
   <section>
     <h2>Próximas Corridas</h2>
 
-  <!-- Barra de pesquisa estilizada -->
-  <section class="search-container">
-    <div class="search-wrapper">
-      <input type="text" 
-            id="search-bar" 
-            placeholder="Digite o nome do evento..." 
-            oninput="filtrarEventos()" />
-      <i class="fa fa-search search-icon"></i>
-    </div>
-  </section>
+    <!-- Barra de pesquisa estilizada -->
+    <section class="search-container">
+      <div class="search-wrapper">
+        <input type="text" id="search-bar" placeholder="Digite o nome do evento..." oninput="filtrarCorridas()" />
+        <i class="fa fa-search search-icon"></i>
+      </div>
+    </section>
 
+    <div class="entries-filter">
+      <label for="entries">Exibir:</label>
+      <select id="entries" onchange="atualizarQuantidadeExibida()">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="9999">Todos</option>
+      </select>
+      <span>eventos</span>
+    </div>
     <table border="1">
       <thead>
         <tr>
@@ -113,23 +120,24 @@
   <script src="js/banners_admin.js"></script>
 
   <!-- Footer -->
-<footer class="footer">
-  <div class="footer-content">
-    <p>&copy; 2025 <strong>Next Pace</strong> — Todos os direitos reservados.</p>
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 <strong>Next Pace</strong> — Todos os direitos reservados.</p>
 
-    <div class="footer-links">
-      <a href="termos.html">Termos e Condições</a>
-      <a href="privacidade.html">Política de Privacidade</a>
-      <a href="db_login.html">DB</a>
-    </div>
+      <div class="footer-links">
+        <a href="termos.html">Termos e Condições</a>
+        <a href="privacidade.html">Política de Privacidade</a>
+        <a href="db_login.html">DB</a>
+      </div>
 
-    <div class="footer-social">
-      <a href="404.html" title="Facebook"><i class="fa fa-facebook"></i></a>
-      <a href="404.html" title="Instagram"><i class="fa fa-instagram"></i></a>
-      <a href="404.html" title="YouTube"><i class="fa fa-youtube"></i></a>
-      <a href="404.html" title="Twitter"><i class="fa fa-twitter"></i></a>
+      <div class="footer-social">
+        <a href="404.html" title="Facebook"><i class="fa fa-facebook"></i></a>
+        <a href="404.html" title="Instagram"><i class="fa fa-instagram"></i></a>
+        <a href="404.html" title="YouTube"><i class="fa fa-youtube"></i></a>
+        <a href="404.html" title="Twitter"><i class="fa fa-twitter"></i></a>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 </body>
+
 </html>

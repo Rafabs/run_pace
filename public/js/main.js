@@ -115,8 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // -------------------- LISTAGEM PÚBLICA DE CORRIDAS --------------------
-let map = null;
 let todasCorridas = [];
+let quantidadeExibida = 10;
 
 async function carregarCorridasPublicas() {
   const tabela = document.getElementById("corridas-list");
@@ -132,7 +132,7 @@ async function carregarCorridasPublicas() {
     const data = await response.json();
     todasCorridas = data;
 
-    tabela.innerHTML = "";
+    renderizarCorridas();
 
     if (!map) {
       map = L.map("map").setView([-23.55052, -46.633308], 10);
@@ -144,19 +144,6 @@ async function carregarCorridasPublicas() {
     const markers = L.markerClusterGroup();
 
     data.forEach((corrida) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${formatarDataParaBR(corrida.DATA)}</td>
-        <td>${corrida.NOME_EVENTO}</td>
-        <td>${corrida.LOCAL}</td>
-        <td>${corrida.PERIODO}</td>
-        <td>${corrida.PUBLICO}</td>
-        <td>${corrida.MEDALHA}</td>
-        <td>${corrida.TIPO}</td>
-        <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
-      `;
-      tabela.appendChild(row);
-
       if (corrida.LAT && corrida.LONG) {
         const marker = L.marker([parseFloat(corrida.LAT), parseFloat(corrida.LONG)]);
         marker.bindPopup(`
@@ -177,6 +164,36 @@ async function carregarCorridasPublicas() {
   }
 }
 
+let map;
+
+function atualizarQuantidadeExibida() {
+  const select = document.getElementById("entries");
+  quantidadeExibida = parseInt(select.value);
+  renderizarCorridas();
+}
+
+function renderizarCorridas() {
+  const tabela = document.getElementById("corridas-list");
+  tabela.innerHTML = "";
+
+  const exibidas = todasCorridas.slice(0, quantidadeExibida);
+
+  exibidas.forEach((corrida) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${formatarDataParaBR(corrida.DATA)}</td>
+      <td>${corrida.NOME_EVENTO}</td>
+      <td>${corrida.LOCAL}</td>
+      <td>${corrida.PERIODO}</td>
+      <td>${corrida.PUBLICO}</td>
+      <td>${corrida.MEDALHA}</td>
+      <td>${corrida.TIPO}</td>
+      <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+    `;
+    tabela.appendChild(row);
+  });
+}
+
 // -------------------- CONFIGURAÇÃO DA BARRA DE PESQUISA --------------------
 function configurarBarraDePesquisa() {
   const searchBar = document.getElementById("search-bar");
@@ -186,30 +203,32 @@ function configurarBarraDePesquisa() {
 function filtrarCorridas() {
   const filtro = document.getElementById("search-bar").value.toLowerCase();
   const tabela = document.getElementById("corridas-list");
+  const limite = parseInt(document.getElementById("entries").value) || 9999;
   tabela.innerHTML = "";
 
-  const corridasFiltradas = todasCorridas.filter((corrida) =>
-    corrida.NOME_EVENTO.toLowerCase().includes(filtro)
-  );
+  const corridasFiltradas = todasCorridas
+    .filter((corrida) =>
+      corrida.NOME_EVENTO.toLowerCase().includes(filtro)
+    )
+    .slice(0, limite); // aplica a quantidade exibida
 
-  // Atualiza a tabela com corridas filtradas
   corridasFiltradas.forEach((corrida) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-            <td>${formatarDataParaBR(corrida.DATA)}</td>
-            <td>${corrida.NOME_EVENTO}</td>
-            <td>${corrida.LOCAL}</td>
-            <td>${corrida.PERIODO}</td>
-            <td>${corrida.PUBLICO}</td>
-            <td>${corrida.MEDALHA}</td>
-            <td>${corrida.TIPO}</td>
-            <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
-        `;
+      <td>${formatarDataParaBR(corrida.DATA)}</td>
+      <td>${corrida.NOME_EVENTO}</td>
+      <td>${corrida.LOCAL}</td>
+      <td>${corrida.PERIODO}</td>
+      <td>${corrida.PUBLICO}</td>
+      <td>${corrida.MEDALHA}</td>
+      <td>${corrida.TIPO}</td>
+      <td><a href="${corrida.SITE}" target="_blank">Saiba Mais</a></td>
+    `;
     row.addEventListener("click", () => {
       if (corrida.LAT && corrida.LONG) {
         const latitude = parseFloat(corrida.LAT);
         const longitude = parseFloat(corrida.LONG);
-        map.setView([latitude, longitude], 14); // Centraliza no ponto filtrado
+        map.setView([latitude, longitude], 14);
       }
     });
     tabela.appendChild(row);
@@ -304,12 +323,12 @@ document.addEventListener("DOMContentLoaded", () => {
       await salvarCorrida();
     });
   } else {
-    console.error("Botão 'salvar-corrida' não encontrado no DOM.");
+    console.warn("⚠️ Botão 'salvar-corrida' não está presente nesta página.");
   }
 });
 
 // Função para renderizar corridas na lista
-function renderizarCorridas(corridas) {
+function renderizarCorridasAdmin(corridas) {
   const listaCorridas = document.getElementById("listaCorridas");
   if (!listaCorridas) {
     console.error("Elemento #listaCorridas não encontrado no HTML!");
