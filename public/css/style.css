@@ -1,6 +1,6 @@
 /* Reset básico */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #FAFAFA; /* Branco suave */
@@ -425,7 +425,9 @@ span.psw {
 }
 
 .emoji {
-    font-size: 1.5rem;
+  font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", "Twemoji Mozilla", "Arial", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 /* Footer */

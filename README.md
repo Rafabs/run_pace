@@ -34,7 +34,8 @@ TO DO:
 - [X] Criar página de Termos e Condições
 - [X] Criar página 404.html estilizada
 - [X] Filtrar quantidade de itens que serão exibidos na tabela 1-10 / 100 por exemplo
-- [ ] Desmembrar main.js para Admin.js
+- [X] Desmembrar main.js para Admin.js
+- [ ] Automatizar para Excluir corridas vencidas
 - [ ] Tornar responsível 
 - [ ] Definir o que terá na Navbar - Aba de dicas para corridas
 - [ ] Validar testes de funcionamento
