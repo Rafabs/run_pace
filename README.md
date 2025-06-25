@@ -25,9 +25,9 @@ TO DO:
 - [X] Inserir fonte dos dados das imagens no banner 
 - [X] Inserir link ao adicionar os banners
 - [X] INSERIR EMOJIS (INFANTIL/MEDALHA)
-- [ ] TESTAR COM GOOGLE MAPS :PENDENTE/INVIÁVEL:
+- [-] TESTAR COM GOOGLE MAPS :PENDENTE/INVIÁVEL:
 - [X] INSERIR AGRUPAMENTOS ALFINETES MAPA
-- [ ] INSERIR LAT/LONG NO DB PARA USUÁRIO CRIAR ROTA ATÉ A CORRIDA 
+- [-] INSERIR LAT/LONG NO DB PARA USUÁRIO CRIAR ROTA ATÉ A CORRIDA 
 - [X] INSERIR REGRAS DO TAMANHO DO BANNER - 1920x700
 - [X] Ajustar arquivos nas pastas respectivas
 - [ ] Finalizar ajustes finais de estilos
@@ -38,5 +38,6 @@ TO DO:
 - [ ] Automatizar para Excluir corridas vencidas
 - [ ] Tornar responsível 
 - [ ] Definir o que terá na Navbar - Aba de dicas para corridas
+- [ ] Desenvolver aba para administração de usuários com permissões
 - [ ] Validar testes de funcionamento
 - [ ] Planejar atualizações futuras, ex: inserir as corridas em formas de card juntamente com a imagem da mesma
